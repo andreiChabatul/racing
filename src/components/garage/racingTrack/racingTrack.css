@@ -4,11 +4,10 @@
   display: grid;
   grid-template-columns: 120px 150px 1fr 115px;
   position: relative;
-  margin-bottom: 20px;
 }
 
 .racing-track__control {
-  background-image: url(./../../assets/img/centerTrack.png);
+  background-image: url(./../../../assets/img/centerTrack.png);
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -31,15 +30,15 @@
 }
 
 .racing-track__start {
-  background-image: url(./../../assets/img/startTrack.png);
+  background-image: url(./../../../assets/img/startTrack.png);
 }
 
 .racing-track__central {
-  background-image: url(./../../assets/img/centerTrack.png);
+  background-image: url(./../../../assets/img/centerTrack.png);
 }
 
 .racing-track__finish {
-  background-image: url(./../../assets/img/finishTrack.png);
+  background-image: url(./../../../assets/img/finishTrack.png);
 }
 
 

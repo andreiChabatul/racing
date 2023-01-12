@@ -1,6 +1,6 @@
-import CreateElement from '../../utils/CreateElement';
-import startIco from '../../assets/img/startIco.png';
-import resetIco from '../../assets/img/resetIco.png';
+import CreateElement from '../../../utils/CreateElement';
+import startIco from '../../../assets/img/startIco.png';
+import resetIco from '../../../assets/img/resetIco.png';
 import './controlCar.css';
 
 export default class ControlCar {

@@ -1,14 +1,11 @@
 import './global.css';
 import '../src/assets/style/reset.css';
 import '../src/assets/style/var.css';
-import RacingTrack from './components/racingTrack/racingTrack';
+import RacingTrack from './components/garage/racingTrack/racingTrack';
 import { ICar, ICarResponse } from './types/index';
+import Garage from './components/garage/garage';
 
-const car: ICarResponse = {
-    name: 'Tesla',
-    color: '#e6e4fa',
-    id: 1,
-};
+
 
 const car1: ICarResponse = {
   name: 'Golf',
@@ -18,8 +15,8 @@ const car1: ICarResponse = {
 
 const body = document.querySelector('.body');
 
-const track = new RacingTrack(car).render();
-const track1 = new RacingTrack(car1).render();
+
+const garage = new Garage().get();
 
 
-body?.append(track, track1);
+body?.append(garage);

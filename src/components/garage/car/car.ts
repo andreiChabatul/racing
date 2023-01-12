@@ -1,6 +1,6 @@
-import { ICar, ICarResponse } from "../../types/index";
-import CreateElement from "../../utils/CreateElement";
-import carIco from '../../assets/img/carFour.png'
+import { ICar, ICarResponse } from "../../../types/index";
+import CreateElement from "../../../utils/CreateElement";
+import carIco from '../../../assets/img/car.png'
 import './car.css'
 
 export default class Car implements ICar {

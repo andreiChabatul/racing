@@ -1,0 +1,53 @@
+.header-garage {
+    height: 55px;
+    background: rgba(0, 0, 0, .6);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    display: grid;
+    padding: 0 1%;
+    align-content: center;
+    gap: 1%;
+    grid-template-columns: repeat(4, min-content) 1fr min-content;
+
+}
+
+.button-header {
+    background: none;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    border: solid 3px var(--COLOR_BACKGROUND_GREY);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--COLOR_BACKGROUND_GREY);
+    transition: .4s;
+}
+
+.button-header:hover {
+    transform: scale(1.05);
+    border: solid 3px var(--COLOR_DEFAULT_HOVER);
+    color: var(--COLOR_DEFAULT_HOVER);
+}
+
+.button-header_start {
+    font-size: 30px;
+    padding-top: 5px;
+    padding-right: 3px;
+}
+
+.button-header_reset {
+    font-size: 30px;
+    padding-top: 5px;
+    padding-right: 3px;
+}
+
+.header-text {
+    align-self: center;
+    white-space: nowrap;
+    grid-column-start: 6;
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--COLOR_BACKGROUND_GREY);
+}

@@ -1,7 +1,7 @@
-import { ICar } from '../../types/index';
-import CreateElement from '../../utils/CreateElement';
+import { ICar } from '../../../types/index';
+import CreateElement from '../../../utils/CreateElement';
 import './changeCar.css';
-import garageIco from '../../assets/img/garageIco.png';
+import garageIco from '../../../assets/img/garageIco.png';
 
 export default class ChangeCar {
   itemCar: ICar;

@@ -1,0 +1,6 @@
+.garage-footer {
+    height: 25px;
+    background: rgba(0, 0, 0, .6);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}

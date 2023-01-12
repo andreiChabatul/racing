@@ -1,5 +1,5 @@
-import { ICar, ICarResponse } from '../../types/index';
-import CreateElement from '../../utils/CreateElement';
+import { ICarResponse } from '../../../types/index';
+import CreateElement from '../../../utils/CreateElement';
 import Car from '../car/car';
 import ChangeCar from '../changeCar/changeCar';
 import ControlCar from '../controlCar/controlCar';

@@ -1,0 +1,10 @@
+.garage-container {
+    width: 96vw;
+    height: 610px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: url(../../assets/img/strGarage.png);
+    border: 3px solid var(--COLOR_BACKGROUND_BLACK);
+}
