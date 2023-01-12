@@ -1,0 +1,97 @@
+
+
+.change-car {
+  position: relative;
+  margin-bottom: -3px;
+}
+
+.change-car__input {
+  transition: .5s;
+  transform: translateX(-250px);
+  border-radius: 10px;
+  top: -10px;
+  padding: 10px;
+  position: absolute;
+  width: 230px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.change-car__input_active {
+  z-index: 12;
+  transform: translateX(0px);
+}
+
+.change-car__form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.change-car__input_text {
+  width: 80px;
+  margin-bottom: 8px;
+}
+
+input[type="color" i]::-webkit-color-swatch-wrapper {
+  border: none;
+  padding: 0;
+}
+
+.change-car__input_color {
+  cursor: pointer;
+  width: 85px;
+}
+
+.change-car__span {
+  color: var(--COLOR_DEFAULT);
+}
+
+.car-control {
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  background: var(--COLOR_DEFAULT);
+  transition: .4s;
+}
+
+.car-control_img {
+  width: 100%;
+}
+
+.car-control:hover {
+  transform: scale(1.1);
+  background: var(--COLOR_DEFAULT_HOVER);
+}
+
+.car-control:active {
+  transform: scale(1.05);
+  background: var(--COLOR_GREEN_DEFAULT);
+}
+
+.close-change {
+  width: 100vw;
+  height: 100vh;
+  background: var(--COLOR_DEFAULT);
+  opacity: .3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+.close-change_active {
+  z-index: 1;
+  display: block;
+}
+
+.car_name {
+  position: absolute;
+  top: -17px;
+  left: 0;
+  font-weight: bold;
+  color: var(--COLOR_DEFAULT);
+  white-space: inherit;
+  width: 130px;
+}
