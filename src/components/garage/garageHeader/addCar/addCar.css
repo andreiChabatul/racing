@@ -1,13 +1,5 @@
 .add-car {
-   
+    position: relative;
     font-size: 36px;
     font-weight: bold;
-    
-}
-
-.add-car:hover {
-    transform: scale(1.05);
-    border: solid 3px var(--BUTTON_ACTIVE);
-    color: var(--BUTTON_ACTIVE);
-
 }

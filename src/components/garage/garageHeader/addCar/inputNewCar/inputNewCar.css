@@ -1,0 +1,55 @@
+.new-car-input-container {
+  width: 250px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-400px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: .5s;
+  z-index: 12;
+}
+
+.new-car-input-container_active {
+  z-index: 12;
+  transform: translateX(0px);
+}
+
+.new-car__input_text {
+  width: 100px;
+}
+
+.new-car__input_color {
+  width: 108px;
+}
+
+.new-car__span {
+  color: var(--COLOR_BACKGROUND);
+  font-size: 14px;
+}
+
+.new-car__form {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+
+.button-car-new {
+  border: solid 2px var(--COLOR_DEFAULT);
+  cursor: pointer;
+  margin-top: 8px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  transition: .4s;
+  cursor: pointer;
+}
+
+.button-car-new:hover {
+  color: var(--COLOR_BACKGROUND);
+  background: var(--COLOR_DEFAULT_HOVER);
+  border: solid 2px var(--COLOR_DEFAULT_HOVER);
+}

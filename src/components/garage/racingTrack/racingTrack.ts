@@ -13,7 +13,7 @@ export default class RacingTrack {
   }
 
   render(): HTMLDivElement {
-    const carContainer = CreateElement.createDivElement('car-track');
+    const carContainer = CreateElement.createDivElement('car-track', '', '', this.car.id);
     const racingTrack = CreateElement.createDivElement('racing-track');
     const controlBlock = CreateElement.createDivElement('racing-track__control');
     const startBlock = CreateElement.createDivElement('racing-track__start');

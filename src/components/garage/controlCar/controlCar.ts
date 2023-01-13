@@ -2,6 +2,7 @@ import CreateElement from '../../../utils/CreateElement';
 import startIco from '../../../assets/img/startIco.png';
 import resetIco from '../../../assets/img/resetIco.png';
 import './controlCar.css';
+import { startEngine } from '../../../utils/apiLoader';
 
 export default class ControlCar {
   containerCar: HTMLDivElement;
@@ -23,7 +24,7 @@ export default class ControlCar {
     const resetCarImg = CreateElement.createImgElement('car-control_img', resetIco);
     this.startCar.append(startCarImg);
     this.resetCar.append(resetCarImg);
-    this.startCar.addEventListener('click', () => this.move())
+    this.eventListner();
     controlCar.append(this.startCar, this.resetCar);
     return controlCar;
   }
@@ -47,6 +48,18 @@ export default class ControlCar {
     }
   }
 
+  eventListner() {
+    this.startCar.addEventListener('click', () => this.startDriveCar())
+  }
+
+
+  async startDriveCar() {
+    this.startCar.disabled = true;
+    this.startCar.classList.add('control-button_disable');
+    
+    (await startEngine(Number(this.containerCar.id))).json().then(data =>
+      console.log(data))
+  }
 
 
 

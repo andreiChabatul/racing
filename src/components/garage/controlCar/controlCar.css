@@ -1,5 +1,9 @@
-.car-control-container{
+.car-control-container {
   width: 75px;
   display: flex;
   justify-content: space-between;
+}
+
+.control-button_disable {
+  opacity: .3;
 }

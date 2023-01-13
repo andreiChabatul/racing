@@ -1,4 +1,4 @@
-import { ICarResponse } from "../../types/index";
+import { ICarResponse, IComponentHeader } from "../../types/index";
 import { getCars } from "../../utils/apiLoader";
 import CreateElement from "../../utils/CreateElement";
 import './garage.css'
@@ -13,44 +13,39 @@ const car: ICarResponse = {
 };
 
 export default class Garage {
-    garageContainer: HTMLDivElement;
+    cartsContainer: HTMLDivElement;
+    headerGarage: IComponentHeader;
 
     constructor() {
-        this.garageContainer = CreateElement.createDivElement('garage-container');
+        this.cartsContainer = CreateElement.createDivElement('cars-container');
+        this.headerGarage = new GarageHeader();
     }
 
-    render(): HTMLElement[] {
-        const result: HTMLElement[] = [];
-        const headerGarage = new GarageHeader(12).render();
+    render(): HTMLElement {
+        const garageContainer = CreateElement.createDivElement('garage-container');
         const footerGarage = new GarageFooter().render();
-        result.push(headerGarage);
-        
-
-        const tor = getCars(1);
-        tor.then(data => {
-            console.log( data.items.length)
-            for (let i = 0; i < data.items.length; i++) {
-                console.log(data.items[i])
-                result.push(new RacingTrack(data.items[i]).render());
-                
-        
-            }
-            console.log(result)
-        });
-
-        result.push(footerGarage);
-
-        return result;
+        garageContainer.append(this.headerGarage.render(), this.cartsContainer, footerGarage);
+        this.update();
+        return garageContainer;
     }
 
     fill() {
-        this.render().forEach((element) => {
-            this.garageContainer.append(element);
+        const response = getCars(1);
+        response.then(data => {
+            data.amount ? this.headerGarage.update(data.amount) : '';
+            data.items.forEach(element => {
+                this.cartsContainer.append(new RacingTrack(element).render());
+            });
         });
     }
 
-    get(): HTMLDivElement {
-        this.fill();
-        return this.garageContainer;
+    clear() {
+        this.cartsContainer.innerHTML = '';
     }
+
+    update() {
+        this.clear();
+        this.fill();
+    }
+
 }

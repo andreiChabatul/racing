@@ -15,12 +15,12 @@ class CreateElement {
         return element;
     }
 
-    createDivElement(cssClass: string, value?: string, text?: string, id?: string): HTMLDivElement {
+    createDivElement(cssClass: string, value?: string, text?: string, id?: string | number): HTMLDivElement {
         const element = document.createElement('div');
         element.className = cssClass;
         value ? element.setAttribute('value', value) : '';
         text ? (element.textContent = text) : '';
-        id ? (element.id = id) : '';
+        id ? (element.id = String(id)) : '';
         return element;
     }
 
