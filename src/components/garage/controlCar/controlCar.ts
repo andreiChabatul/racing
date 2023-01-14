@@ -2,7 +2,7 @@ import CreateElement from '../../../utils/CreateElement';
 import startIco from '../../../assets/img/startIco.png';
 import resetIco from '../../../assets/img/resetIco.png';
 import './controlCar.css';
-import { startEngine } from '../../../utils/apiLoader';
+import { driveCar, startEngine } from '../../../utils/apiLoader';
 
 export default class ControlCar {
   containerCar: HTMLDivElement;
@@ -24,6 +24,8 @@ export default class ControlCar {
     const resetCarImg = CreateElement.createImgElement('car-control_img', resetIco);
     this.startCar.append(startCarImg);
     this.resetCar.append(resetCarImg);
+    this.resetCar.disabled = true;
+    this.resetCar.classList.toggle('control-button_disable');
     this.eventListner();
     controlCar.append(this.startCar, this.resetCar);
     return controlCar;
@@ -31,10 +33,7 @@ export default class ControlCar {
 
 
   move() {
-    const car = {
-      velocity: 64,
-      distance: 500000
-    };
+
 
 
     const max = this.trackAnimation.offsetWidth - this.containerCar.offsetWidth - 5;
@@ -54,12 +53,38 @@ export default class ControlCar {
 
 
   async startDriveCar() {
+    const id = Number(this.containerCar.id);
+    const car = this.containerCar
+    let idAnimation: number;
+    let start: number;
     this.startCar.disabled = true;
-    this.startCar.classList.add('control-button_disable');
-    
-    (await startEngine(Number(this.containerCar.id))).json().then(data =>
-      console.log(data))
+    this.resetCar.disabled = false;
+    this.startCar.classList.toggle('control-button_disable');
+    this.resetCar.classList.toggle('control-button_disable');
+    const { velocity, distance } = await startEngine(id);
+    const time = Math.round(distance / velocity);
+    const distanceHtml = this.trackAnimation.offsetWidth - this.containerCar.offsetWidth - 5;
+
+    function step(timestamp: number) {
+      start === undefined ? start = timestamp : '';
+      const elapsed = timestamp - start;
+      const count = Math.round(elapsed * (distanceHtml / time));
+      car.style.transform = `translateX(${Math.min(count, distanceHtml)}px)`;
+      count < distance ? idAnimation = requestAnimationFrame(step) : '';
+    }
+
+    idAnimation = window.requestAnimationFrame(step);
+    const statusDrive = (await driveCar(id)).status;
+    console.log(statusDrive)
+    if (statusDrive === 500) {
+      console.log(idAnimation)
+      window.cancelAnimationFrame(idAnimation)
+    }
+
   }
+
+
+
 
 
 
