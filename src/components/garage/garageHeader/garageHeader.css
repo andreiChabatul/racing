@@ -31,17 +31,7 @@
     color: var(--COLOR_DEFAULT_HOVER);
 }
 
-.button-header_start {
-    font-size: 30px;
-    padding-top: 5px;
-    padding-right: 3px;
-}
 
-.button-header_reset {
-    font-size: 30px;
-    padding-top: 5px;
-    padding-right: 3px;
-}
 
 .header-text {
     align-self: center;

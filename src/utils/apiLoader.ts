@@ -1,5 +1,6 @@
+import RaceMode from '../components/garage/garageHeader/raceMode/raceMode';
 import { ENGINE_BASE, GARAGE_BASE } from '../CONST/const';
-import { IPromiseGarage, IUpdateCar } from '../types/index';
+import { IPromiseGarage, IStartQuery, IUpdateCar } from '../types/index';
 
 export async function getCars(page: number, limit = 7): Promise<IPromiseGarage> {
     const response = await fetch(`${GARAGE_BASE}?_page=${page}&_limit=${limit}`);
@@ -35,10 +36,24 @@ export async function createCar(option: IUpdateCar) {
     });
 }
 
-export async function startEngine(id: number) {
-    return await fetch(`${ENGINE_BASE}?id=${id}&status=started`,{
+export async function startEngine(id: number): Promise<IStartQuery> {
+    return (await fetch(`${ENGINE_BASE}?id=${id}&status=started`, {
         method: 'PATCH',
-        },
+    },
+    )).json();
+}
+
+export async function stopEngine(id: number) {
+    return await fetch(`${ENGINE_BASE}?id=${id}&status=stopped`, {
+        method: 'PATCH',
+    },
     );
-    
+}
+
+export async function driveCar(id: number) {
+    const response = await fetch(`${ENGINE_BASE}?id=${id}&status=drive`, {
+        method: 'PATCH',
+    }).catch()
+    RaceMode.pushWin(response);
+    return response;
 }

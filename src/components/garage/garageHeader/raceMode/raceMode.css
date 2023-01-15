@@ -1,0 +1,13 @@
+.control-race-container {
+    display: flex;
+    width: 100px;
+    justify-content: space-between;
+}
+
+.button-header_start {
+    font-size: 12px;
+}
+
+.button-header_reset {
+    font-size: 12px;
+}

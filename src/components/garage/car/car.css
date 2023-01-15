@@ -1,5 +1,6 @@
 .car {
   height: 50px;
+  position: relative;
 }
 
 .car-ico{
