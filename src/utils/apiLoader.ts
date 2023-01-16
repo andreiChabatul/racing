@@ -1,6 +1,6 @@
 import RaceMode from '../components/garage/garageHeader/raceMode/raceMode';
-import { ENGINE_BASE, GARAGE_BASE } from '../CONST/const';
-import { ICarResponse, IPromiseGarage, IStartQuery, IUpdateCar } from '../types/index';
+import { ENGINE_BASE, GARAGE_BASE, WINNER_BASE } from '../CONST/const';
+import { ICarResponse, ICarWin, IPromiseGarage, IPromiseWinners, IStartQuery, IUpdateCar } from '../types/index';
 
 export async function getCars(page: number, limit = 7): Promise<IPromiseGarage> {
     const response = await fetch(`${GARAGE_BASE}?_page=${page}&_limit=${limit}`);
@@ -59,4 +59,29 @@ export async function driveCar(id: number): Promise<Response> {
     }).catch();
     RaceMode.pushWin(response, timePes);
     return response;
+}
+
+export async function getWinners(page: number, limit: number, sort: string, order: string): Promise<IPromiseWinners> {
+    const response = await fetch(`${WINNER_BASE}?_page=${page}&_limit=${limit}&_sort=${sort}&_order=${order}`);
+    return {
+        items: await response.json(),
+        count: response.headers.get('X-Total-Count'),
+    }
+}
+
+export async function getWinner(id: string) {
+    return await fetch(`${WINNER_BASE}/${id}`, {
+            method: 'GET',
+        })
+    ;
+}
+
+export async function createWinner(option: ICarWin) {
+    await fetch(WINNER_BASE, {
+        method: 'POST',
+        body: JSON.stringify(option),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 }

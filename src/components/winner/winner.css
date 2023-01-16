@@ -1,0 +1,24 @@
+.winner-container {
+  width: 98vw;
+  height: 500px;
+  border-radius: 10px;
+  background: url(../../assets/img/strGarage.png);
+  border: 3px solid var(--COLOR_BACKGROUND_BLACK);
+}
+
+.winner-container__button {
+  margin-top: 3px;
+  border: none;
+  justify-self: center;
+  font-size: 18px;
+  color: var(--COLOR_FONT_BROWM);
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transition: .4s;
+  padding: 5px;
+}
+
+.winner-container__button:hover{
+  background: var(--COLOR_BACKGROUND_BLACK);
+}

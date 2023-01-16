@@ -21,6 +21,12 @@ export interface ICar {
   update(): void,
 }
 
+export interface ICarWin {
+  id: number,
+  wins: number,
+  time: number,
+}
+
 export interface IStartQuery {
   velocity: number,
   distance: number,
@@ -34,6 +40,11 @@ export interface IUpdateCar {
 export interface IPromiseGarage {
   items: ICarResponse[],
   amount: string | null,
+}
+
+export interface IPromiseWinners {
+  items: ICarWin[],
+  count: string | null,
 }
 
 export interface IComponentHeader {

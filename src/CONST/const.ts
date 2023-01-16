@@ -1,7 +1,10 @@
+export const BODY = document.querySelector('.body');
 const BASE = 'http://localhost:3000';
 export const GARAGE_BASE = `${BASE}/garage`;
 export const ENGINE_BASE = `${BASE}/engine`;
+export const WINNER_BASE = `${BASE}/winners`;
 export const MAX_RANDOM = 100;
+export const MAX_LIMIT_WINNERS = 10;
 export const BRAND_CAR: string[] = [
     'Audi',
     'BMW',

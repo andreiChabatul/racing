@@ -1,5 +1,6 @@
 import { BRAND_CAR, MODEL_CAR } from '../CONST/const';
-import { IUrlObj } from '../types/index';
+import { ICarWin, IUrlObj } from '../types/index';
+import { createWinner, getWinner } from './apiLoader';
 
 export function generateRandomColor(): string {
     const random = () => Math.floor(Math.random() * 256);
@@ -25,3 +26,18 @@ export function parseUrl(url: string): string {
         return '0';
     }
 }
+
+export async function winnerProcessing(id: string, time: number) {
+    const response = await getWinner(id);
+    if (response.status === 200) {
+        console.log('tcnm')
+    } else if (response.status === 404) {
+        const option: ICarWin = {
+            id: Number(id),
+            wins: 1,
+            time: time / 1000,
+        }
+        await createWinner(option);
+    }
+}
+

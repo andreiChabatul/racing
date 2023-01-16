@@ -1,5 +1,5 @@
-import { driveObj, IControlCar, IRaceMode } from '../../../../types/index';
-import { parseUrl } from '../../../../utils/additionalFunctions';
+import { driveObj, ICarResponse, IControlCar, IRaceMode } from '../../../../types/index';
+import { parseUrl, winnerProcessing } from '../../../../utils/additionalFunctions';
 import { workCar } from '../../../../utils/apiLoader';
 import CreateElement from '../../../../utils/CreateElement';
 import winIco from '../../../../assets/img/winLogo.png';
@@ -85,9 +85,9 @@ export class RaceMode implements IRaceMode {
         const winImg = CreateElement.createImgElement('win-container__img', winIco);
         const infoCar = CreateElement.createSpanElement('win-container__info');
         this.winContainer.append(winImg, infoCar);
-        await workCar(id, 'GET').then((data) => {
-            infoCar.textContent = `Win car: ${data.name} Time: ${car.time / 1000} sec.`;
-        });
+        const winCar: ICarResponse = await workCar(id, 'GET');
+        winnerProcessing(id, car.time);
+        infoCar.textContent = `Win car: ${winCar.name} Time: ${car.time / 1000} sec.`;
     }
 }
 

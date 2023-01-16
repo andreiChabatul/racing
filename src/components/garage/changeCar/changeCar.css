@@ -5,7 +5,7 @@
 
 .change-car__input {
   transition: .5s;
-  transform: translateX(-250px);
+  transform: translateX(-300px);
   border-radius: 10px;
   top: -10px;
   padding: 10px;
