@@ -22,13 +22,12 @@ export default class AddHundriedCar {
                 this.createRandomCar();
                 createCar(this.newCar);
             }
-        })
+        });
         return addCar;
     }
 
     createRandomCar(): void {
-        this.newCar.name = generateRandomName();;
+        this.newCar.name = generateRandomName();
         this.newCar.color = generateRandomColor();
     }
-
 }

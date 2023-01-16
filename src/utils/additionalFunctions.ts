@@ -1,20 +1,27 @@
-import { BRAND_CAR, MODEL_CAR } from "../CONST/const";
+import { BRAND_CAR, MODEL_CAR } from '../CONST/const';
+import { IUrlObj } from '../types/index';
 
 export function generateRandomColor(): string {
-    let random = () => Math.floor(Math.random() * (256));
+    const random = () => Math.floor(Math.random() * 256);
     return `#${random().toString(16)}${random().toString(16)}${random().toString(16)}`;
 }
 
 export function generateRandomName(): string {
-    return `${BRAND_CAR[Math.floor(Math.random() * BRAND_CAR.length)]} ${MODEL_CAR[Math.floor(Math.random() * MODEL_CAR.length)]}`
+    const indexBrand = Math.floor(Math.random() * BRAND_CAR.length);
+    const indexModel = Math.floor(Math.random() * MODEL_CAR.length);
+    return `${BRAND_CAR[indexBrand]} ${MODEL_CAR[indexModel]}`;
 }
 
 export function parseUrl(url: string): string {
-    const parseObj = {};
+    const parseObj: IUrlObj = {};
     const arr = url.split('?')[1].split('&');
     arr.forEach((element) => {
         const elem = element.split('=');
-        parseObj[elem[0]] = elem[1]
+        elem[0] === 'id' || elem[0] === 'status' ? (parseObj[elem[0]] = elem[1]) : '';
     });
-    return parseObj.id;
+    if (parseObj.id) {
+        return parseObj.id;
+    } else {
+        return '0';
+    }
 }

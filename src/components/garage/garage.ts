@@ -1,16 +1,10 @@
-import { ICarResponse, IComponentHeader } from "../../types/index";
+import { IComponentHeader } from "../../types/index";
 import { getCars } from "../../utils/apiLoader";
 import CreateElement from "../../utils/CreateElement";
 import './garage.css'
 import GarageFooter from "./garageFooter/garageFooter";
 import GarageHeader from "./garageHeader/garageHeader";
 import RacingTrack from "./racingTrack/racingTrack";
-
-const car: ICarResponse = {
-    name: 'Tesla',
-    color: '#e6e4fa',
-    id: 1,
-};
 
 export default class Garage {
     cartsContainer: HTMLDivElement;

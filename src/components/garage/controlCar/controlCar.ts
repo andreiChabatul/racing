@@ -5,7 +5,6 @@ import { driveCar, startEngine, stopEngine } from '../../../utils/apiLoader';
 import ehgineBroken from '../../../assets/img/engineBroken.gif';
 import { driveObj, IControlCar } from '../../../types/index';
 import './controlCar.css';
-import RaceMode from '../garageHeader/raceMode/raceMode';
 
 export default class ControlCar implements IControlCar {
     containerCar: HTMLDivElement;
@@ -82,21 +81,20 @@ export default class ControlCar implements IControlCar {
             this.disableHeader.classList.remove('header-disable_active');
             stop = false;
             car.style.transform = 'translateX(0px)';
-            stopCar(idAnimation, this.id);
+            this.stopCar(idAnimation, this.id);
             this.offButtonStopGarage();
         });
 
         const statusDrive = await driveCar(this.id);
         statusDrive ? this.disableHeader.classList.remove('header-disable_active') : '';
         if (statusDrive.status === 500 && stop) {
-            stopCar(idAnimation, this.id);
+            this.stopCar(idAnimation, this.id);
             this.engineImg.classList.add('engine-broken_active');
         }
-
-        async function stopCar(idAnimation: number, id: number) {
-            window.cancelAnimationFrame(idAnimation);
-            await stopEngine(id);
-        }
+    }
+    async stopCar(idAnimation: number, id: number) {
+        window.cancelAnimationFrame(idAnimation);
+        await stopEngine(id);
     }
 
     offButtonStopGarage(): void {
@@ -115,5 +113,4 @@ export default class ControlCar implements IControlCar {
     async setRaceMode(value: boolean): Promise<void> {
         this.race = value;
     }
-
 }

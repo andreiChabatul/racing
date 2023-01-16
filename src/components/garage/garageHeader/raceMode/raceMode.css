@@ -11,3 +11,34 @@
 .button-header_reset {
     font-size: 12px;
 }
+
+.win-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .6);
+    z-index: 3;
+    display: none;
+}
+
+.win-container_active {
+    display: block;
+}
+
+.win-container__img {
+    position: absolute;
+    left: calc(50% - 160px);
+    top: 150px;
+    width: 320px;
+}
+
+.win-container__info {
+    position: absolute;
+    left: calc(50%);
+    transform: translateX(-50%);
+    top: 270px;
+    font-size: 16px;
+    color: var(--COLOR_FONT_BLACK);
+}

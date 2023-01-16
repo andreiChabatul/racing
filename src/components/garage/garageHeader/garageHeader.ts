@@ -6,7 +6,6 @@ import './garageHeader.css';
 import RaceMode from './raceMode/raceMode';
 
 export default class GarageHeader implements IComponentHeader {
-
     totalCar: HTMLParagraphElement;
     amount: string;
 

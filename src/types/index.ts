@@ -4,6 +4,17 @@ export interface ICarResponse {
   id: number
 }
 
+export interface ICarResponse {
+  name: string,
+  color: string,
+  id: number
+}
+
+export interface IUrlObj {
+  id?: string,
+  status?: string,
+}
+
 export interface ICar {
   car: ICarResponse,
   render(): HTMLDivElement,
@@ -33,9 +44,11 @@ export interface IComponentHeader {
 }
 
 export interface IRaceMode {
-  startButton: HTMLButtonElement,
-  resetButton: HTMLButtonElement,
   render(): HTMLDivElement,
+  pushCar(car: IControlCar): void,
+  startRace(): void,
+  resetRace(): void,
+  renderWin(id: string, car: driveObj): void
 }
 
 export interface driveObj {

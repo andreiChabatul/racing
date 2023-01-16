@@ -1,7 +1,6 @@
 import './global.css';
 import '../src/assets/style/reset.css';
 import '../src/assets/style/var.css';
-import { ICar, ICarResponse } from './types/index';
 import Garage from './components/garage/garage';
 
 
