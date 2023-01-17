@@ -1,4 +1,5 @@
-import { BRAND_CAR, MODEL_CAR } from '../CONST/const';
+import { ACTIONS, BRAND_CAR, MAX_LIMIT_GARAGE, MODEL_CAR } from '../CONST/const';
+import { store } from '../store/store';
 import { ICarWin, IUrlObj } from '../types/index';
 import { createWinner, getWinner } from './apiLoader';
 
@@ -41,3 +42,14 @@ export async function winnerProcessing(id: string, time: number) {
     }
 }
 
+export function nextPageGarage(page: number) {
+    const actualState = store.getState();
+    const maxPage = actualState.amountCar / MAX_LIMIT_GARAGE;
+    let resultPage = page + 1;
+    resultPage > maxPage ? resultPage = actualState.garagePage : '';
+    console.log(resultPage)
+    store.dispatch({
+        type: ACTIONS.garagePage,
+        parametr: resultPage,
+    })
+}

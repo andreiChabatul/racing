@@ -1,8 +1,9 @@
+import { ACTIONS, MAX_LIMIT_GARAGE } from "../../CONST/const";
+import { store } from "../../store/store";
 import { IComponentHeader } from "../../types/index";
 import { getCars } from "../../utils/apiLoader";
 import CreateElement from "../../utils/CreateElement";
 import './garage.css'
-import GarageFooter from "./garageFooter/garageFooter";
 import GarageHeader from "./garageHeader/garageHeader";
 import RacingTrack from "./racingTrack/racingTrack";
 
@@ -15,31 +16,32 @@ export default class Garage {
         this.headerGarage = new GarageHeader();
     }
 
-    render(): HTMLElement {
+    render(): HTMLDivElement {
+        store.subscribe(() => this.update());
         const garageContainer = CreateElement.createDivElement('garage-container');
-        const footerGarage = new GarageFooter().render();
-        garageContainer.append(this.headerGarage.render(), this.cartsContainer, footerGarage);
-        this.update();
+        garageContainer.append(this.headerGarage.render(), this.cartsContainer);
         return garageContainer;
-    }
-
-    fill() {
-        const response = getCars(1);
-        response.then(data => {
-            data.amount ? this.headerGarage.update(data.amount) : '';
-            data.items.forEach(element => {
-                this.cartsContainer.append(new RacingTrack(element).render());
-            });
-        });
     }
 
     clear() {
         this.cartsContainer.innerHTML = '';
     }
 
-    update() {
-        this.clear();
-        this.fill();
-    }
+   
 
+    async update() {
+        const actualState = store.getState();
+        const response = await getCars(actualState.garagePage, MAX_LIMIT_GARAGE);
+        
+            let amount = '1';
+            response.amount ? amount = response.amount : '';
+            store.dispatch({
+                type: ACTIONS.countCar,
+                parametr: amount,
+            });
+           
+        // response.items.forEach(element => {
+        //     this.cartsContainer.append(new RacingTrack(element).render());
+        // });
+    }
 }
