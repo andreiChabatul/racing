@@ -7,8 +7,7 @@
     padding: 0 1%;
     align-content: center;
     gap: 1%;
-    grid-template-columns: repeat(4, min-content) 1fr min-content;
-
+    grid-template-columns: repeat(3, min-content) 1fr min-content;
 }
 
 .button-header {
@@ -31,12 +30,9 @@
     color: var(--COLOR_DEFAULT_HOVER);
 }
 
-
-
 .header-text {
     align-self: center;
     white-space: nowrap;
-    grid-column-start: 6;
     font-size: 22px;
     font-weight: bold;
     color: var(--COLOR_BACKGROUND_GREY);

@@ -39,7 +39,7 @@ export interface IUpdateCar {
 
 export interface IPromiseGarage {
   items: ICarResponse[],
-  amount: string | null,
+  amount: string | null;
 }
 
 export interface IPromiseWinners {
@@ -49,7 +49,7 @@ export interface IPromiseWinners {
 
 export interface IComponentHeader {
   totalCar: HTMLParagraphElement,
-  amount: string,
+  amount: number,
   render(): HTMLDivElement,
   update(amount: string): void,
 }
@@ -75,7 +75,6 @@ export interface IControlCar {
   startCar: HTMLButtonElement,
   resetCar: HTMLButtonElement,
   engineImg: HTMLImageElement,
-  disableHeader: HTMLDivElement,
   driveObj: driveObj,
   id: number,
   race: boolean,
@@ -86,4 +85,15 @@ export interface IControlCar {
   offButtonStopGarage(): void,
   onButtonStopGarage(): void,
   setRaceMode(value: boolean): Promise<void>,
+}
+
+export interface IState {
+  display: 'garage' | 'winner',
+  garagePage: number,
+  amountCar: number,
+}
+
+export interface IStateAction {
+  type: string,
+  parametr?: number | string,
 }

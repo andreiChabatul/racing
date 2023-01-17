@@ -42,14 +42,13 @@ export default class InputNewCar {
     }
 
     addCarServerInfoCar() {
-        if (this.newCar.name !== '') {
-            createCar(this.newCar);
-            this.inputColorCar.value = '#000000';
-            this.inputTextCar.value = '';
-            this.newCar.color = '#000000';
-            this.newCar.name = '';
-            this.openAndCloseMenu();
-        }
+        this.newCar.name === '' ? this.newCar.name = 'default car' : '';
+        createCar(this.newCar);
+        this.inputColorCar.value = '#000000';
+        this.inputTextCar.value = '';
+        this.newCar.color = '#000000';
+        this.newCar.name = '';
+        this.openAndCloseMenu();
     }
 
     openAndCloseMenu() {

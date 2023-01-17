@@ -1,0 +1,59 @@
+.header-wraper {
+  background-image: url(../../assets/img/strGarage.png);
+  height: 55px;
+  display: flex;
+  width: 98vw;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1%;
+  border-radius: 10px;
+  border: 2px solid var(--COLOR_BACKGROUND_BLACK);
+}
+
+.header-wraper__logo {
+  height: 50px;
+  width: 407px;
+}
+
+.header-logo__img {
+  width: 100%;
+}
+
+
+.header-button_control {
+  display: flex;
+  padding: 0 5px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+  background: var(--COLOR_DEFAULT);
+  transition: .4s;
+}
+
+.header-control__img {
+  width: 45px;
+  height: 45px;
+}
+
+.header-button_control:hover {
+  background: var(--COLOR_DEFAULT_HOVER);
+}
+
+.header-control__text {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--COLOR_FONT_BROWM);
+}
+
+.header-wraper__buttons{
+  display: flex;
+  gap: 15px;
+}
+
+.header-button_control_active {
+  background: var(--BUTTON_ACTIVE);
+}

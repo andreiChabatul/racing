@@ -4,3 +4,17 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 }
+
+.garage__page_select {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background: firebrick;
+    cursor: pointer;
+}
+
+.garage-pagination {
+    justify-content: space-between;
+    width: 150px;
+    display: flex;
+}

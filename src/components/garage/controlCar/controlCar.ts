@@ -13,7 +13,6 @@ export default class ControlCar implements IControlCar {
     startCar: HTMLButtonElement;
     resetCar: HTMLButtonElement;
     engineImg: HTMLImageElement;
-    disableHeader: HTMLDivElement;
     driveObj: driveObj;
     id: number;
     race: boolean;
@@ -26,7 +25,6 @@ export default class ControlCar implements IControlCar {
         this.startCar = CreateElement.createButtonElement('car-control');
         this.resetCar = CreateElement.createButtonElement('car-control');
         this.engineImg = CreateElement.createImgElement('engine-broken', ehgineBroken);
-        this.disableHeader = CreateElement.createDivElement('header-disable');
         this.id = Number(this.containerCar.id);
         this.race = true;
         this.driveObj = {
@@ -43,9 +41,8 @@ export default class ControlCar implements IControlCar {
         this.startCar.append(startCarImg);
         this.resetCar.append(resetCarImg);
         this.resetCar.classList.add('control-button_disable');
-        controlCar.append(this.startCar, this.resetCar, this.disableHeader);
+        controlCar.append(this.startCar, this.resetCar);
         this.startCar.addEventListener('click', () => {
-            this.disableHeader.classList.add('header-disable_active');
             this.startEngine();
         });
         return controlCar;
@@ -78,7 +75,6 @@ export default class ControlCar implements IControlCar {
         }
         idAnimation = window.requestAnimationFrame(step);
         this.resetCar.addEventListener('click', () => {
-            this.disableHeader.classList.remove('header-disable_active');
             stop = false;
             car.style.transform = 'translateX(0px)';
             this.stopCar(idAnimation, this.id);
@@ -86,7 +82,6 @@ export default class ControlCar implements IControlCar {
         });
 
         const statusDrive = await driveCar(this.id);
-        statusDrive ? this.disableHeader.classList.remove('header-disable_active') : '';
         if (statusDrive.status === 500 && stop) {
             this.stopCar(idAnimation, this.id);
             this.engineImg.classList.add('engine-broken_active');

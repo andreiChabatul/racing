@@ -1,13 +1,10 @@
 import './global.css';
 import '../src/assets/style/reset.css';
 import '../src/assets/style/var.css';
-import Garage from './components/garage/garage';
-import { BODY } from './CONST/const';
-import Footer from './components/footer/footer';
-import Winner from './components/winner/winner';
-const footer1 = new Footer().render();
-const garage = new Garage().render();
-const winner = new Winner().render()
-const footer = new Footer().render();
+import { ACTIONS } from './CONST/const';
+import { store } from './store/store';
+import InitPage from './components/initPage/initPage';
 
-BODY?.append(footer1, winner, footer);
+const initPage = new InitPage();
+initPage.render();
+store.dispatch({ type: ACTIONS.init })

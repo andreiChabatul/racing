@@ -2,7 +2,7 @@ import RaceMode from '../components/garage/garageHeader/raceMode/raceMode';
 import { ENGINE_BASE, GARAGE_BASE, WINNER_BASE } from '../CONST/const';
 import { ICarResponse, ICarWin, IPromiseGarage, IPromiseWinners, IStartQuery, IUpdateCar } from '../types/index';
 
-export async function getCars(page: number, limit = 7): Promise<IPromiseGarage> {
+export async function getCars(page: number, limit: number): Promise<IPromiseGarage> {
     const response = await fetch(`${GARAGE_BASE}?_page=${page}&_limit=${limit}`);
     return {
         items: await response.json(),
