@@ -8,6 +8,11 @@
   background: var(--COLOR_DEFAULT);
 }
 
-.main-page{
+.main-page {
   position: relative;
+}
+
+.button-state {
+  opacity: var(--BUTTON_OPACITY_DISABLE);
+  pointer-events: var(--BUTTON_EVENT_DISABLE);
 }

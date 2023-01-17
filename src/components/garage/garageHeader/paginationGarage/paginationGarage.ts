@@ -13,8 +13,8 @@ export default class PaginationGarage {
     constructor(amountCar: number) {
         this.amountCar = amountCar;
         this.amountPage = CreateElement.createSpanElement('header-pagination__text');
-        this.nextPage = CreateElement.createDivElement('button-header header-pagination', '', 'next page');
-        this.prevPage = CreateElement.createDivElement('button-header header-pagination', '', 'prev page');
+        this.nextPage = CreateElement.createDivElement('button-header header-pagination button-state', '', 'next page');
+        this.prevPage = CreateElement.createDivElement('button-header header-pagination button-state', '', 'prev page');
     }
 
     render(): HTMLDivElement {

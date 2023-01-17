@@ -1,4 +1,4 @@
-import { ACTIONS, BRAND_CAR, MAX_LIMIT_GARAGE, MODEL_CAR } from '../CONST/const';
+import { ACTIONS, BODY, BRAND_CAR, MAX_LIMIT_GARAGE, MODEL_CAR } from '../CONST/const';
 import { store } from '../store/store';
 import { ICarWin, IUrlObj } from '../types/index';
 import { createWinner, getWinner } from './apiLoader';
@@ -67,4 +67,9 @@ export function prevPageGarage() {
         parametr: resultPage,
         isCheck: true,
     });
+}
+
+export function buttonDisable() {
+    BODY.style.setProperty('--BUTTON_OPACITY_DISABLE', '.5');
+    BODY.style.setProperty('--BUTTON_EVENT_DISABLE', 'none');
 }

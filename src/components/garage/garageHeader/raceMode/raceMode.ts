@@ -1,5 +1,5 @@
 import { driveObj, ICarResponse, IControlCar, IRaceMode } from '../../../../types/index';
-import { parseUrl, winnerProcessing } from '../../../../utils/additionalFunctions';
+import { buttonDisable, parseUrl, winnerProcessing } from '../../../../utils/additionalFunctions';
 import { workCar } from '../../../../utils/apiLoader';
 import CreateElement from '../../../../utils/CreateElement';
 import winIco from '../../../../assets/img/winLogo.png';
@@ -50,6 +50,7 @@ export class RaceMode implements IRaceMode {
     async startRace() {
         this.dataRes = Date.now();
         this.resetRace();
+        buttonDisable();
         this.IsRace = true;
         this.carControl.forEach((element) => {
             element.containerCar.style.opacity = '.4';

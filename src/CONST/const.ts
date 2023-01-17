@@ -1,4 +1,4 @@
-export const BODY = document.querySelector('.body');
+export const BODY = document.querySelector('.body') as HTMLDivElement ;
 const BASE = 'http://localhost:3000';
 export enum ACTIONS {
     init = 'INIT',
