@@ -4,8 +4,12 @@ import { ICarWin, IUrlObj } from '../types/index';
 import { createWinner, getWinner } from './apiLoader';
 
 export function generateRandomColor(): string {
-    const random = () => Math.floor(Math.random() * 256);
-    return `#${random().toString(16)}${random().toString(16)}${random().toString(16)}`;
+    const result = [];
+    const hexRef = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+    for (let n = 0; n < 6; n++) {
+        result.push(hexRef[Math.floor(Math.random() * 16)]);
+    }
+    return `#${result.join('')}`;
 }
 
 export function generateRandomName(): string {
@@ -31,25 +35,36 @@ export function parseUrl(url: string): string {
 export async function winnerProcessing(id: string, time: number) {
     const response = await getWinner(id);
     if (response.status === 200) {
-        console.log('tcnm')
+        console.log('tcnm');
     } else if (response.status === 404) {
         const option: ICarWin = {
             id: Number(id),
             wins: 1,
             time: time / 1000,
-        }
+        };
         await createWinner(option);
     }
 }
 
-export function nextPageGarage(page: number) {
+export function nextPageGarage() {
     const actualState = store.getState();
-    const maxPage = actualState.amountCar / MAX_LIMIT_GARAGE;
-    let resultPage = page + 1;
-    resultPage > maxPage ? resultPage = actualState.garagePage : '';
-    console.log(resultPage)
+    const maxPage = Math.ceil(actualState.amountCar / MAX_LIMIT_GARAGE);
+    let resultPage = actualState.garagePage + 1;
+    resultPage > maxPage ? (resultPage = actualState.garagePage) : '';
     store.dispatch({
         type: ACTIONS.garagePage,
         parametr: resultPage,
-    })
+        isCheck: true,
+    });
+}
+
+export function prevPageGarage() {
+    const actualState = store.getState();
+    let resultPage = actualState.garagePage - 1;
+    resultPage < 1 ? (resultPage = 1) : '';
+    store.dispatch({
+        type: ACTIONS.garagePage,
+        parametr: resultPage,
+        isCheck: true,
+    });
 }

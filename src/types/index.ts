@@ -91,9 +91,12 @@ export interface IState {
   display: 'garage' | 'winner',
   garagePage: number,
   amountCar: number,
+  IsCheckAmount: boolean,
+  IsRaceSingle: boolean,
 }
 
 export interface IStateAction {
   type: string,
   parametr?: number | string,
+  isCheck?: boolean,
 }

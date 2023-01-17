@@ -66,14 +66,13 @@ export async function getWinners(page: number, limit: number, sort: string, orde
     return {
         items: await response.json(),
         count: response.headers.get('X-Total-Count'),
-    }
+    };
 }
 
 export async function getWinner(id: string) {
     return await fetch(`${WINNER_BASE}/${id}`, {
-            method: 'GET',
-        })
-    ;
+        method: 'GET',
+    });
 }
 
 export async function createWinner(option: ICarWin) {

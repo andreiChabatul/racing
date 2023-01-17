@@ -1,29 +1,39 @@
-import { IState, IStateAction } from "../types/index";
+import { IState, IStateAction } from '../types/index';
 
 const initalState: IState = {
-  display: "garage",
-  garagePage: 1,
-  amountCar: 1,
-}
+    display: 'garage',
+    garagePage: 1,
+    amountCar: 1,
+    IsCheckAmount: true,
+    IsRaceSingle: false,
+};
 
 export function reducer(state: IState = initalState, action: IStateAction) {
-  switch (action.type) {
-    case 'WINNER':
-      state.display = 'winner';
-      break;
-    case 'GARAGE':
-      state.display = 'garage'
-      break;
-    case 'INIT':
-      state = initalState;
-      break;
-    case 'COUNT_CAR':
-      state.amountCar = Number(action.parametr);
-      break;
-    case 'GARAGE_PAGE':
-      state.garagePage = Number(action.parametr);
-      break;
-  }
+    switch (action.type) {
+        case 'WINNER':
+            state.display = 'winner';
+            break;
+        case 'GARAGE':
+            state.display = 'garage';
+            break;
+        case 'INIT':
+            state = initalState;
+            break;
+        case 'COUNT_CAR':
+            state.amountCar = Number(action.parametr);
+            state.IsCheckAmount = Boolean(action.isCheck);
+            break;
+        case 'GARAGE_PAGE':
+            state.garagePage = Number(action.parametr);
+            state.IsCheckAmount = Boolean(action.isCheck);
+            break;
+        case 'GARAGE_RACE_SINGLE':
+            state.IsRaceSingle = Boolean(action.isCheck);
+            break;
+        case 'UPDATE':
+            state.IsCheckAmount = Boolean(action.isCheck);
+            break;
+    }
 
-  return state
+    return state;
 }

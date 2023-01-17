@@ -7,4 +7,4 @@ import InitPage from './components/initPage/initPage';
 
 const initPage = new InitPage();
 initPage.render();
-store.dispatch({ type: ACTIONS.init })
+store.dispatch({ type: ACTIONS.init });

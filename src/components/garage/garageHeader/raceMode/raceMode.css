@@ -14,11 +14,11 @@
 
 .win-container {
     border-radius: 10px;
-    position: fixed;
-    top: 55px;
-    left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 98vw;
-    height: 585px;
+    height: 560px;
     background: rgba(0, 0, 0, .6);
     z-index: 3;
     display: none;

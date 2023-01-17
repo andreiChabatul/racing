@@ -22,3 +22,8 @@
   color: var(--COLOR_BACKGROUND_GREY);
   font-size: 16px;
 }
+
+.button_disable {
+  pointer-events: none;
+  opacity: .7;
+}

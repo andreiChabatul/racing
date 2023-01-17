@@ -1,4 +1,5 @@
-import { MAX_RANDOM } from '../../../../CONST/const';
+import { ACTIONS, MAX_RANDOM } from '../../../../CONST/const';
+import { store } from '../../../../store/store';
 import { IUpdateCar } from '../../../../types/index';
 import { generateRandomColor, generateRandomName } from '../../../../utils/additionalFunctions';
 import { createCar } from '../../../../utils/apiLoader';
@@ -22,6 +23,10 @@ export default class AddHundriedCar {
                 this.createRandomCar();
                 createCar(this.newCar);
             }
+            store.dispatch({
+                type: ACTIONS.update,
+                isCheck: true,
+            });
         });
         return addCar;
     }

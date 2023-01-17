@@ -5,6 +5,8 @@ import { driveCar, startEngine, stopEngine } from '../../../utils/apiLoader';
 import ehgineBroken from '../../../assets/img/engineBroken.gif';
 import { driveObj, IControlCar } from '../../../types/index';
 import './controlCar.css';
+import { store } from '../../../store/store';
+import { ACTIONS } from '../../../CONST/const';
 
 export default class ControlCar implements IControlCar {
     containerCar: HTMLDivElement;
@@ -49,6 +51,7 @@ export default class ControlCar implements IControlCar {
     }
 
     async startEngine(): Promise<void> {
+        this.setStore(true);
         const { velocity, distance } = await startEngine(this.id);
         this.driveObj.distance = distance;
         this.driveObj.time = Math.round(distance / velocity);
@@ -78,6 +81,7 @@ export default class ControlCar implements IControlCar {
             stop = false;
             car.style.transform = 'translateX(0px)';
             this.stopCar(idAnimation, this.id);
+            this.setStore(false);
             this.offButtonStopGarage();
         });
 
@@ -85,6 +89,9 @@ export default class ControlCar implements IControlCar {
         if (statusDrive.status === 500 && stop) {
             this.stopCar(idAnimation, this.id);
             this.engineImg.classList.add('engine-broken_active');
+            this.setStore(false);
+        } else if (statusDrive.status === 200) {
+            this.setStore(false);
         }
     }
     async stopCar(idAnimation: number, id: number) {
@@ -102,10 +109,18 @@ export default class ControlCar implements IControlCar {
     onButtonStopGarage(): void {
         this.startCar.classList.add('control-button_disable');
         this.changeCar.classList.add('control-button_disable');
-        this.resetCar.classList.remove('control-button_disable');
+        this.resetCar.classList.add('control-button_disable');
+        this.race ? this.resetCar.classList.remove('control-button_disable') : '';
     }
 
     async setRaceMode(value: boolean): Promise<void> {
         this.race = value;
+    }
+
+    setStore(value: boolean): void {
+        store.dispatch({
+            type: ACTIONS.raceSingle,
+            isCheck: value,
+        });
     }
 }

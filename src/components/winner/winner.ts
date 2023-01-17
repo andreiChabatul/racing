@@ -25,7 +25,7 @@ export default class Winner {
     async update() {
         const winners = (await getWinners(1, MAX_LIMIT_WINNERS, 'id', 'ASC')).items;
         for (let i = 0; i < winners.length; i++) {
-            const car = await workCar(winners[i].id, 'GET');
+            const car = await workCar(String(winners[i].id), 'GET');
             this.winnerList.append(new DescriptionWin(car, winners[i], i + 1).render());
         }
     }

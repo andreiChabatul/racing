@@ -42,7 +42,7 @@ export default class InputNewCar {
     }
 
     addCarServerInfoCar() {
-        this.newCar.name === '' ? this.newCar.name = 'default car' : '';
+        this.newCar.name === '' ? (this.newCar.name = 'default car') : '';
         createCar(this.newCar);
         this.inputColorCar.value = '#000000';
         this.inputTextCar.value = '';
