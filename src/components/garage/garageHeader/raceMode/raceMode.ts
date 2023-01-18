@@ -1,5 +1,5 @@
 import { driveObj, ICarResponse, IControlCar, IRaceMode } from '../../../../types/index';
-import { buttonActive, buttonDisable, parseUrl, shuffle, winnerProcessing } from '../../../../utils/additionalFunctions';
+import { parseUrl, shuffle, winnerProcessing } from '../../../../utils/additionalFunctions';
 import { workCar } from '../../../../utils/apiLoader';
 import CreateElement from '../../../../utils/CreateElement';
 import winIco from '../../../../assets/img/winLogo.png';
@@ -13,14 +13,14 @@ export class RaceMode implements IRaceMode {
     winContainer: HTMLDivElement;
     resetButton: HTMLButtonElement;
     carControl: IControlCar[];
+    carRace: number[];
     winId = '-1';
     IsWin = true;
     IsRace = false;
-    dataRes: number;
 
     constructor() {
-        this.dataRes = 0;
         this.carControl = [];
+        this.carRace = [];
         this.winContainer = CreateElement.createDivElement('win-container');
         this.controlRace = CreateElement.createDivElement('control-race-container');
         this.startButton = CreateElement.createButtonElement('button-header button-header_start button-state', 'RACE');
@@ -45,12 +45,20 @@ export class RaceMode implements IRaceMode {
         this.carControl.push(car);
     }
 
+    pushRaceCar(value: number) {
+        this.carRace.push(value);
+    }
+
+    getRaceCar(): number[] {
+        return this.carRace;
+    }
+
     clearCar(): void {
         this.carControl = [];
     }
 
-    async pushWin(response: Response, dataResCar: number): Promise<void> {
-        if (this.IsWin && response.status === 200 && this.IsRace && dataResCar > this.dataRes) {
+    async pushWin(response: Response): Promise<void> {
+        if (this.IsWin && response.status === 200 && this.IsRace) {
             this.IsWin = false;
             this.winId = parseUrl(response.url);
             this.carControl.forEach((element) => {
@@ -60,9 +68,7 @@ export class RaceMode implements IRaceMode {
     }
 
     async startRace() {
-        this.dataRes = Date.now();
         this.resetRace();
-        buttonDisable();
         this.IsRace = true;
         this.carControl.forEach((element) => {
             element.containerCar.style.opacity = '.4';
@@ -75,7 +81,7 @@ export class RaceMode implements IRaceMode {
                 element.startCar.classList.add('control-button_disable');
             });
 
-            for (let car of arr) {
+            for (const car of arr) {
                 await car.setRaceMode(false);
                 await car.startEngine();
             }
@@ -89,7 +95,6 @@ export class RaceMode implements IRaceMode {
     resetRace() {
         this.winContainer.classList.remove('win-container_active');
         this.resetButton.classList.remove('button-state_active');
-        buttonActive();
         this.IsRace = false;
         this.IsWin = true;
         this.carControl.forEach((element) => {

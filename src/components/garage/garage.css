@@ -3,7 +3,7 @@
     max-height: 560px;
     border-radius: 10px;
     display: flex;
-    gap: 20px;
+    gap: 5px;
     flex-direction: column;
     justify-content: space-between;
     background: url(../../assets/img/strGarage.png);

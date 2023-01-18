@@ -61,11 +61,10 @@ export async function stopEngine(id: number) {
 }
 
 export async function driveCar(id: number): Promise<Response> {
-    const timePes = Date.now();
     const response = await fetch(`${ENGINE_BASE}?id=${id}&status=drive`, {
         method: 'PATCH',
     }).catch();
-    RaceMode.pushWin(response, timePes);
+    RaceMode.pushWin(response);
     return response;
 }
 

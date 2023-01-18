@@ -6,7 +6,7 @@ import ehgineBroken from '../../../assets/img/engineBroken.gif';
 import { driveObj, IControlCar } from '../../../types/index';
 import './controlCar.css';
 import { buttonActive, buttonDisable } from '../../../utils/additionalFunctions';
-import { BODY } from '../../../CONST/const';
+import RaceMode from '../garageHeader/raceMode/raceMode';
 
 export default class ControlCar implements IControlCar {
     containerCar: HTMLDivElement;
@@ -19,7 +19,8 @@ export default class ControlCar implements IControlCar {
     id: number;
     race: boolean;
     initAnimation = 0;
-    
+    IsFinish: boolean;
+
     constructor(containerCar: HTMLDivElement, trackAnimation: HTMLDivElement) {
         this.containerCar = containerCar;
         this.trackAnimation = trackAnimation;
@@ -29,6 +30,7 @@ export default class ControlCar implements IControlCar {
         this.engineImg = CreateElement.createImgElement('engine-broken', ehgineBroken);
         this.id = Number(this.containerCar.id);
         this.race = true;
+        this.IsFinish = true;
         this.driveObj = {
             distanceHtml: 0,
             time: 0,
@@ -44,22 +46,24 @@ export default class ControlCar implements IControlCar {
         this.resetCar.append(resetCarImg);
         this.resetCar.classList.add('control-button_disable');
         controlCar.append(this.startCar, this.resetCar);
-        this.headlight = (this.containerCar.childNodes[0].childNodes[1]) as HTMLDivElement;
-        this.startCar.addEventListener('click', () => {
-            this.startEngine();
-            buttonDisable();
-        });
+        this.headlight = this.containerCar.childNodes[0].childNodes[1] as HTMLDivElement;
+        this.startCar.addEventListener('click', () => this.startEngine());
         return controlCar;
     }
 
     async startEngine(): Promise<void> {
-        const { velocity, distance } = await startEngine(this.id);
-        this.driveObj.distance = distance;
-        this.driveObj.time = Math.round(distance / velocity);
-        this.driveObj.distanceHtml = this.trackAnimation.offsetWidth - this.containerCar.offsetWidth - 5;
-        this.containerCar.style.opacity = '1';
-        this.headlight.style.opacity = '1'
-        this.race ? this.driveCar() : '';
+        if (this.IsFinish) {
+            buttonDisable();
+            RaceMode.pushRaceCar(this.id);
+            this.IsFinish = false;
+            const { velocity, distance } = await startEngine(this.id);
+            this.driveObj.distance = distance;
+            this.driveObj.time = Math.round(distance / velocity);
+            this.driveObj.distanceHtml = this.trackAnimation.offsetWidth - this.containerCar.offsetWidth - 5;
+            this.containerCar.style.opacity = '1';
+            this.headlight.style.opacity = '1';
+            this.race ? this.driveCar() : '';
+        }
     }
 
     async driveCar(): Promise<void> {
@@ -76,35 +80,36 @@ export default class ControlCar implements IControlCar {
             const elapsed = timestamp - start;
             const count = Math.round(elapsed * (distanceHtml / time));
             car.style.transform = `translateX(${Math.min(count, distanceHtml)}px)`;
-            count < distance ? (idAnimation = requestAnimationFrame(step)) : '';
+            count < distance ? (idAnimation = window.requestAnimationFrame(step)) : '';
         }
         idAnimation = window.requestAnimationFrame(step);
-        this.resetCar.addEventListener('click', () => {
+        this.resetCar.addEventListener('click', async () => {
+            await stopEngine(this.id);
+            this.offButtonStopGarage();
             stop = false;
             car.style.transform = 'translateX(0px)';
-            this.stopCar(idAnimation, this.id);
-            this.offButtonStopGarage();
+            this.stopCar(idAnimation);
         });
 
         const statusDrive = await driveCar(this.id);
-        if (statusDrive.status === 500 && stop) {
-            this.stopCar(idAnimation, this.id);
-            this.engineImg.classList.add('engine-broken_active');
-        } else if (statusDrive.status === 200) {
-            this.stopCar(idAnimation, this.id);
-        }
+        statusDrive.status === 500 && stop ? this.engineImg.classList.add('engine-broken_active') : '';
+        this.IsFinish = true;
+        RaceMode.getRaceCar().shift();
+        this.stopCar(idAnimation);
     }
-    async stopCar(idAnimation: number, id: number) {
-        this.headlight.style.opacity = '0'
-        this.race ? buttonActive() : '';
+
+    async stopCar(idAnimation: number) {
         window.cancelAnimationFrame(idAnimation);
-        await stopEngine(id);
+        if (this.IsFinish) {
+            this.race ? this.startCar.classList.remove('control-button_disable') : '';
+            this.headlight.style.opacity = '0';
+            RaceMode.getRaceCar().length === 0 ? buttonActive() : '';
+        }
     }
 
     offButtonStopGarage(): void {
-        this.engineImg.classList.remove('engine-broken_active');
-        this.startCar.classList.remove('control-button_disable');
         this.resetCar.classList.add('control-button_disable');
+        this.engineImg.classList.remove('engine-broken_active');
     }
 
     onButtonStopGarage(): void {

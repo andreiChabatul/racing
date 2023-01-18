@@ -9,9 +9,9 @@
 
 .car-headlight {
   opacity: 0;
-  left: 95px;
+  left: 0px;
   top: 0;
-  width: 25px;
+  width: 116px;
   height: 50px;
   position: absolute;
   background-size: cover;

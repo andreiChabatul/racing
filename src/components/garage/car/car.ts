@@ -14,7 +14,7 @@ export default class Car implements ICar {
 
     render(): HTMLDivElement {
         const carImg = CreateElement.createImgElement('car-ico', carIco);
-        const headlight = CreateElement.createDivElement('car-headlight')
+        const headlight = CreateElement.createDivElement('car-headlight');
         this.carElement.append(carImg, headlight);
         this.carElement.style.background = this.car.color;
         return this.carElement;

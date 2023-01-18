@@ -22,7 +22,7 @@
 
 .racing-track__animation {
   height: 100%;
-  width: calc(100% - 150px);
+  width: calc(100% - 125px);
   left: 125px;
   position: absolute;
   display: flex;

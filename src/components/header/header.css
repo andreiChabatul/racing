@@ -1,8 +1,8 @@
 .header-wraper {
   background-image: url(../../assets/img/strGarage.png);
-  height: 55px;
+  height: 45px;
   display: flex;
-  width: 98vw;
+  width: 97vw;
   align-items: center;
   justify-content: space-between;
   padding: 0 1%;
@@ -11,14 +11,13 @@
 }
 
 .header-wraper__logo {
-  height: 50px;
-  width: 407px;
+  height: 45px;
+  width: 367px;
 }
 
 .header-logo__img {
   width: 100%;
 }
-
 
 .header-button_control {
   display: flex;
@@ -27,15 +26,15 @@
   align-items: center;
   border-radius: 10px;
   cursor: pointer;
-  width: 150px;
-  height: 40px;
+  width: 130px;
+  height: 30px;
   background: var(--COLOR_DEFAULT);
   transition: .4s;
 }
 
 .header-control__img {
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
 }
 
 .header-button_control:hover {
@@ -45,7 +44,7 @@
 .header-control__text {
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   color: var(--COLOR_FONT_BROWM);
 }
 
