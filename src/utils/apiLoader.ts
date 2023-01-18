@@ -1,6 +1,14 @@
 import RaceMode from '../components/garage/garageHeader/raceMode/raceMode';
 import { ENGINE_BASE, GARAGE_BASE, WINNER_BASE } from '../CONST/const';
-import { ICarResponse, ICarWin, IPromiseGarage, IPromiseWinners, IStartQuery, IUpdateCar } from '../types/index';
+import {
+    ICarResponse,
+    ICarWin,
+    ICarWinUpdate,
+    IPromiseGarage,
+    IPromiseWinners,
+    IStartQuery,
+    IUpdateCar,
+} from '../types/index';
 
 export async function getCars(page: number, limit: number): Promise<IPromiseGarage> {
     const response = await fetch(`${GARAGE_BASE}?_page=${page}&_limit=${limit}`);
@@ -69,15 +77,35 @@ export async function getWinners(page: number, limit: number, sort: string, orde
     };
 }
 
-export async function getWinner(id: string) {
-    return await fetch(`${WINNER_BASE}/${id}`, {
-        method: 'GET',
-    });
+export async function getWinner(id: string): Promise<ICarWin> {
+    return (
+        await fetch(`${WINNER_BASE}/${id}`, {
+            method: 'GET',
+        })
+    ).json();
 }
 
 export async function createWinner(option: ICarWin) {
     await fetch(WINNER_BASE, {
         method: 'POST',
+        body: JSON.stringify(option),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}
+
+export async function workWinner(id: string, method: string): Promise<ICarWin> {
+    return (
+        await fetch(`${WINNER_BASE}/${id}`, {
+            method: method,
+        })
+    ).json();
+}
+
+export async function updateWinner(id: number, option: ICarWinUpdate) {
+    await fetch(`${WINNER_BASE}/${id}`, {
+        method: 'PUT',
         body: JSON.stringify(option),
         headers: {
             'Content-Type': 'application/json',

@@ -1,9 +1,11 @@
 import { driveObj, ICarResponse, IControlCar, IRaceMode } from '../../../../types/index';
-import { buttonDisable, parseUrl, winnerProcessing } from '../../../../utils/additionalFunctions';
+import { buttonActive, buttonDisable, parseUrl, shuffle, winnerProcessing } from '../../../../utils/additionalFunctions';
 import { workCar } from '../../../../utils/apiLoader';
 import CreateElement from '../../../../utils/CreateElement';
 import winIco from '../../../../assets/img/winLogo.png';
 import './raceMode.css';
+import { store } from '../../../../store/store';
+import { ACTIONS } from '../../../../CONST/const';
 
 export class RaceMode implements IRaceMode {
     startButton: HTMLButtonElement;
@@ -21,20 +23,30 @@ export class RaceMode implements IRaceMode {
         this.carControl = [];
         this.winContainer = CreateElement.createDivElement('win-container');
         this.controlRace = CreateElement.createDivElement('control-race-container');
-        this.startButton = CreateElement.createButtonElement('button-header button-header_start', 'RACE');
-        this.resetButton = CreateElement.createButtonElement('button-header button-header_reset', 'RES');
+        this.startButton = CreateElement.createButtonElement('button-header button-header_start button-state', 'RACE');
+        this.resetButton = CreateElement.createButtonElement('button-header button-header_reset button-state', 'RES');
     }
 
     render(): HTMLDivElement {
         this.controlRace.append(this.startButton, this.resetButton, this.winContainer);
         this.startButton.addEventListener('click', () => this.startRace());
         this.resetButton.addEventListener('click', () => this.resetRace());
-        this.winContainer.addEventListener('click', () => this.resetRace());
+        this.winContainer.addEventListener('click', () => {
+            this.resetRace();
+            store.dispatch({
+                type: ACTIONS.update,
+                isCheck: true,
+            });
+        });
         return this.controlRace;
     }
 
     pushCar(car: IControlCar) {
         this.carControl.push(car);
+    }
+
+    clearCar(): void {
+        this.carControl = [];
     }
 
     async pushWin(response: Response, dataResCar: number): Promise<void> {
@@ -54,17 +66,20 @@ export class RaceMode implements IRaceMode {
         this.IsRace = true;
         this.carControl.forEach((element) => {
             element.containerCar.style.opacity = '.4';
-            element.startCar.classList.add('control-button_disable');
-            element.changeCar.classList.add('control-button_disable');
-            element.resetCar.classList.add('control-button_disable');
         });
-        processArray(this.carControl);
+        processArray(this.carControl, this.resetButton);
 
-        async function processArray(arr: IControlCar[]) {
-            for (let i = 0; i < arr.length; i++) {
-                await arr[i].setRaceMode(false);
-                await arr[i].startEngine();
+        async function processArray(arr: IControlCar[], button: HTMLButtonElement) {
+            shuffle(arr);
+            arr.forEach((element) => {
+                element.startCar.classList.add('control-button_disable');
+            });
+
+            for (let car of arr) {
+                await car.setRaceMode(false);
+                await car.startEngine();
             }
+            button.classList.add('button-state_active');
             arr.forEach((element) => {
                 element.driveCar();
             });
@@ -73,6 +88,8 @@ export class RaceMode implements IRaceMode {
 
     resetRace() {
         this.winContainer.classList.remove('win-container_active');
+        this.resetButton.classList.remove('button-state_active');
+        buttonActive();
         this.IsRace = false;
         this.IsWin = true;
         this.carControl.forEach((element) => {
@@ -87,7 +104,7 @@ export class RaceMode implements IRaceMode {
         const infoCar = CreateElement.createSpanElement('win-container__info');
         this.winContainer.append(winImg, infoCar);
         const winCar: ICarResponse = await workCar(id, 'GET');
-        winnerProcessing(id, car.time);
+        winnerProcessing(Number(id), car.time);
         infoCar.textContent = `Win car: ${winCar.name} Time: ${car.time / 1000} sec.`;
     }
 }

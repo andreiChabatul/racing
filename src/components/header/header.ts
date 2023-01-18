@@ -40,10 +40,10 @@ export default class Header {
     }
 
     update() {
-        const updateStore = store.getState();
+        const actualStore = store.getState();
         this.buttonWinner.classList.remove('header-button_control_active');
         this.buttonGarage.classList.remove('header-button_control_active');
-        updateStore.display === 'winner'
+        actualStore.display === 'winner'
             ? this.buttonWinner.classList.add('header-button_control_active')
             : this.buttonGarage.classList.add('header-button_control_active');
     }

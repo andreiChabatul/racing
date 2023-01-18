@@ -2,7 +2,8 @@ import { ICar } from '../../../types/index';
 import CreateElement from '../../../utils/CreateElement';
 import './changeCar.css';
 import garageIco from '../../../assets/img/garageIco.png';
-import { updateCar, workCar } from '../../../utils/apiLoader';
+import { updateCar } from '../../../utils/apiLoader';
+import { deleteCarGW } from '../../../utils/additionalFunctions';
 
 export default class ChangeCar {
     itemCar: ICar;
@@ -16,7 +17,7 @@ export default class ChangeCar {
 
     constructor(itemCar: ICar) {
         this.itemCar = itemCar;
-        this.changeCarButton = CreateElement.createButtonElement('car-control');
+        this.changeCarButton = CreateElement.createButtonElement('car-control button-state');
         this.inputTextCar = CreateElement.createInputElement(
             'change-car__input_text',
             'Enter name',
@@ -80,8 +81,8 @@ export default class ChangeCar {
         this.close.classList.toggle('close-change_active');
     }
 
-    deleteCarServerInfoCar() {
-        workCar(String(this.itemCar.car.id), 'DELETE');
+    async deleteCarServerInfoCar() {
+        await deleteCarGW(this.itemCar.car.id);
         this.openAndCloseMenu();
     }
 

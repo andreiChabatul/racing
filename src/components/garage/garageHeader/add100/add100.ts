@@ -7,32 +7,32 @@ import CreateElement from '../../../../utils/CreateElement';
 import './add100.css';
 
 export default class AddHundriedCar {
-    newCar: IUpdateCar;
-
-    constructor() {
-        this.newCar = {
-            name: '',
-            color: '#000000',
-        };
-    }
-
     render(): HTMLDivElement {
-        const addCar = CreateElement.createDivElement('add-100 button-header', '', '100');
+        const addCar = CreateElement.createDivElement('add-100 button-header button-state', '', '100');
         addCar.addEventListener('click', () => {
+            const randomCar: IUpdateCar[] = [];
             for (let i = 0; i < MAX_RANDOM; i++) {
-                this.createRandomCar();
-                createCar(this.newCar);
+                randomCar.push(this.createRandomCar());
             }
-            store.dispatch({
-                type: ACTIONS.update,
-                isCheck: true,
-            });
+            this.addRandomCar(randomCar);
         });
         return addCar;
     }
 
-    createRandomCar(): void {
-        this.newCar.name = generateRandomName();
-        this.newCar.color = generateRandomColor();
+    async addRandomCar(cars: IUpdateCar[]) {
+        for (let i = 0; i < cars.length; i++) {
+            await createCar(cars[i]);
+        }
+        store.dispatch({
+            type: ACTIONS.update,
+            isCheck: true,
+        });
+    }
+
+    createRandomCar(): IUpdateCar {
+        return {
+            name: generateRandomName(),
+            color: generateRandomColor(),
+        };
     }
 }

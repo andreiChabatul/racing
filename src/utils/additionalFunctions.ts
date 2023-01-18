@@ -1,13 +1,14 @@
-import { ACTIONS, BODY, BRAND_CAR, MAX_LIMIT_GARAGE, MODEL_CAR } from '../CONST/const';
+import { ACTIONS, BODY, BRAND_CAR, MAX_LIMIT_GARAGE, MAX_LIMIT_WINNERS, MODEL_CAR } from '../CONST/const';
 import { store } from '../store/store';
-import { ICarWin, IUrlObj } from '../types/index';
-import { createWinner, getWinner } from './apiLoader';
+import { ICarWin, ICarWinUpdate, IUrlObj } from '../types/index';
+import { createWinner, getWinner, getWinners, updateWinner, workCar, workWinner } from './apiLoader';
 
 export function generateRandomColor(): string {
     const result = [];
     const hexRef = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+    shuffle(hexRef);
     for (let n = 0; n < 6; n++) {
-        result.push(hexRef[Math.floor(Math.random() * 16)]);
+        result.push(hexRef[n]);
     }
     return `#${result.join('')}`;
 }
@@ -32,18 +33,33 @@ export function parseUrl(url: string): string {
     }
 }
 
-export async function winnerProcessing(id: string, time: number) {
-    const response = await getWinner(id);
-    if (response.status === 200) {
-        console.log('tcnm');
-    } else if (response.status === 404) {
+export function shuffle<T>(array: T[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+export async function winnerProcessing(id: number, time: number) {
+    const actualWinners = await getAllWinners();
+    if (actualWinners.includes(id)) {
+        let resultTime: number = time / 1000;
+        const car = await getWinner(String(id));
+        resultTime > car.time ? (resultTime = car.time) : '';
+        const option: ICarWinUpdate = {
+            wins: car.wins++,
+            time: resultTime,
+        };
+        await updateWinner(id, option);
+    } else {
         const option: ICarWin = {
-            id: Number(id),
+            id: id,
             wins: 1,
             time: time / 1000,
         };
         await createWinner(option);
     }
+
 }
 
 export function nextPageGarage() {
@@ -72,4 +88,32 @@ export function prevPageGarage() {
 export function buttonDisable() {
     BODY.style.setProperty('--BUTTON_OPACITY_DISABLE', '.5');
     BODY.style.setProperty('--BUTTON_EVENT_DISABLE', 'none');
+}
+
+export function buttonActive() {
+    BODY.style.setProperty('--BUTTON_OPACITY_DISABLE', '1');
+    BODY.style.setProperty('--BUTTON_EVENT_DISABLE', 'auto');
+}
+
+export async function getAllWinners() {
+    const winnersAll: number[] = [];
+    const winners = await getWinners(1, MAX_LIMIT_WINNERS, 'id', 'ASC');
+    const maxPage = Math.ceil(Number(winners.count) / MAX_LIMIT_WINNERS);
+    for (let i = 1; i < maxPage + 1; i++) {
+        const item = (await getWinners(i, MAX_LIMIT_WINNERS, 'id', 'ASC')).items;
+        item.forEach((element) => {
+            winnersAll.push(element.id);
+        });
+    }
+    return winnersAll;
+}
+
+export async function deleteCarGW(id: number) {
+    await workCar(String(id), 'DELETE');
+    const actualWinners = await getAllWinners();
+    actualWinners.includes(id) ? await workWinner(String(id), 'DELETE') : '';
+    store.dispatch({
+        type: ACTIONS.update,
+        isCheck: true,
+    });
 }

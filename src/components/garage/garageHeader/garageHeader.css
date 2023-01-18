@@ -38,17 +38,3 @@
     font-weight: bold;
     color: var(--COLOR_BACKGROUND_GREY);
 }
-
-.single-race {
-    position: absolute;
-    width: 393px;
-    height: 45px;
-    top: 0;
-    background: rgba(0, 0, 0, .4);
-    border-radius: 10px;
-    display: none;
-}
-
-.single-race_active {
-    display: none;
-}

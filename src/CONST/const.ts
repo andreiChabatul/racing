@@ -1,4 +1,4 @@
-export const BODY = document.querySelector('.body') as HTMLDivElement ;
+export const BODY = document.querySelector('.body') as HTMLDivElement;
 const BASE = 'http://localhost:3000';
 export enum ACTIONS {
     init = 'INIT',
@@ -6,9 +6,9 @@ export enum ACTIONS {
     winner = 'WINNER',
     countCar = 'COUNT_CAR',
     garagePage = 'GARAGE_PAGE',
-    raceSingle = 'GARAGE_RACE_SINGLE',
     update = 'UPDATE',
 }
+
 export const GARAGE_BASE = `${BASE}/garage`;
 export const ENGINE_BASE = `${BASE}/engine`;
 export const WINNER_BASE = `${BASE}/winners`;

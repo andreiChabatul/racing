@@ -27,6 +27,11 @@ export interface ICarWin {
   time: number,
 }
 
+export interface ICarWinUpdate {
+  wins: number,
+  time: number,
+}
+
 export interface IStartQuery {
   velocity: number,
   distance: number,
@@ -71,7 +76,6 @@ export interface driveObj {
 export interface IControlCar {
   containerCar: HTMLDivElement,
   trackAnimation: HTMLDivElement,
-  changeCar: HTMLDivElement,
   startCar: HTMLButtonElement,
   resetCar: HTMLButtonElement,
   engineImg: HTMLImageElement,
@@ -92,7 +96,6 @@ export interface IState {
   garagePage: number,
   amountCar: number,
   IsCheckAmount: boolean,
-  IsRaceSingle: boolean,
 }
 
 export interface IStateAction {

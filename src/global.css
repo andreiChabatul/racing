@@ -16,3 +16,8 @@
   opacity: var(--BUTTON_OPACITY_DISABLE);
   pointer-events: var(--BUTTON_EVENT_DISABLE);
 }
+
+.button-state_active {
+  opacity: 1;
+  pointer-events: auto;
+}

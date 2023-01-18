@@ -6,6 +6,7 @@ import CreateElement from '../../utils/CreateElement';
 import GarageHeader from './garageHeader/garageHeader';
 import RacingTrack from './racingTrack/racingTrack';
 import './garage.css';
+import RaceMode from './garageHeader/raceMode/raceMode';
 
 export default class Garage {
     cartsContainer: HTMLDivElement;
@@ -39,6 +40,7 @@ export default class Garage {
                 isCheck: false,
             });
             this.clear();
+            RaceMode.clearCar();
             response.items.forEach((element) => {
                 this.cartsContainer.append(new RacingTrack(element).render());
             });

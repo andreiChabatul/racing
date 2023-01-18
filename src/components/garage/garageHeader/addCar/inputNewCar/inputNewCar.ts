@@ -1,3 +1,5 @@
+import { ACTIONS } from '../../../../../CONST/const';
+import { store } from '../../../../../store/store';
 import { IUpdateCar } from '../../../../../types/index';
 import { createCar } from '../../../../../utils/apiLoader';
 import CreateElement from '../../../../../utils/CreateElement';
@@ -41,9 +43,13 @@ export default class InputNewCar {
         this.openAndCloseMenu();
     }
 
-    addCarServerInfoCar() {
+    async addCarServerInfoCar() {
         this.newCar.name === '' ? (this.newCar.name = 'default car') : '';
-        createCar(this.newCar);
+        await createCar(this.newCar);
+        store.dispatch({
+            type: ACTIONS.update,
+            isCheck: true,
+        });
         this.inputColorCar.value = '#000000';
         this.inputTextCar.value = '';
         this.newCar.color = '#000000';

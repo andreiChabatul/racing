@@ -23,7 +23,7 @@ export default class RacingTrack {
         const trackAnimation = CreateElement.createDivElement('racing-track__animation');
         const carRacing = new Car(this.car);
         const changeCar = new ChangeCar(carRacing).render();
-        const controlCar = new ControlCar(carContainer, trackAnimation, changeCar);
+        const controlCar = new ControlCar(carContainer, trackAnimation);
         RaceMode.pushCar(controlCar);
         carContainer.append(carRacing.render());
 

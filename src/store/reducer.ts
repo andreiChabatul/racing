@@ -5,7 +5,6 @@ const initalState: IState = {
     garagePage: 1,
     amountCar: 1,
     IsCheckAmount: true,
-    IsRaceSingle: false,
 };
 
 export function reducer(state: IState = initalState, action: IStateAction) {
@@ -26,9 +25,6 @@ export function reducer(state: IState = initalState, action: IStateAction) {
         case 'GARAGE_PAGE':
             state.garagePage = Number(action.parametr);
             state.IsCheckAmount = Boolean(action.isCheck);
-            break;
-        case 'GARAGE_RACE_SINGLE':
-            state.IsRaceSingle = Boolean(action.isCheck);
             break;
         case 'UPDATE':
             state.IsCheckAmount = Boolean(action.isCheck);

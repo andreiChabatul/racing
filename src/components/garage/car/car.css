@@ -3,6 +3,18 @@
   position: relative;
 }
 
-.car-ico{
+.car-ico {
   width: 100%;
+}
+
+.car-headlight {
+  opacity: 0;
+  left: 95px;
+  top: 0;
+  width: 25px;
+  height: 50px;
+  position: absolute;
+  background-size: cover;
+  z-index: 1;
+  background-image: url(../../../assets/img/headlight.png);
 }

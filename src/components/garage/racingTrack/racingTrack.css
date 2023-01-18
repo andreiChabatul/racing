@@ -2,7 +2,7 @@
   height: 71px;
   width: 100%;
   display: grid;
-  grid-template-columns: 120px 150px 1fr 135px;
+  grid-template-columns: 120px 150px 1fr 150px;
   position: relative;
 }
 
@@ -22,7 +22,7 @@
 
 .racing-track__animation {
   height: 100%;
-  width: calc(100% - 125px);
+  width: calc(100% - 150px);
   left: 125px;
   position: absolute;
   display: flex;

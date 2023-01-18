@@ -5,25 +5,25 @@ import { driveCar, startEngine, stopEngine } from '../../../utils/apiLoader';
 import ehgineBroken from '../../../assets/img/engineBroken.gif';
 import { driveObj, IControlCar } from '../../../types/index';
 import './controlCar.css';
-import { store } from '../../../store/store';
-import { ACTIONS } from '../../../CONST/const';
+import { buttonActive, buttonDisable } from '../../../utils/additionalFunctions';
+import { BODY } from '../../../CONST/const';
 
 export default class ControlCar implements IControlCar {
     containerCar: HTMLDivElement;
     trackAnimation: HTMLDivElement;
-    changeCar: HTMLDivElement;
     startCar: HTMLButtonElement;
     resetCar: HTMLButtonElement;
     engineImg: HTMLImageElement;
+    headlight: HTMLDivElement;
     driveObj: driveObj;
     id: number;
     race: boolean;
     initAnimation = 0;
-
-    constructor(containerCar: HTMLDivElement, trackAnimation: HTMLDivElement, changeCar: HTMLDivElement) {
+    
+    constructor(containerCar: HTMLDivElement, trackAnimation: HTMLDivElement) {
         this.containerCar = containerCar;
         this.trackAnimation = trackAnimation;
-        this.changeCar = changeCar;
+        this.headlight = CreateElement.createDivElement('headlight');
         this.startCar = CreateElement.createButtonElement('car-control');
         this.resetCar = CreateElement.createButtonElement('car-control');
         this.engineImg = CreateElement.createImgElement('engine-broken', ehgineBroken);
@@ -44,19 +44,21 @@ export default class ControlCar implements IControlCar {
         this.resetCar.append(resetCarImg);
         this.resetCar.classList.add('control-button_disable');
         controlCar.append(this.startCar, this.resetCar);
+        this.headlight = (this.containerCar.childNodes[0].childNodes[1]) as HTMLDivElement;
         this.startCar.addEventListener('click', () => {
             this.startEngine();
+            buttonDisable();
         });
         return controlCar;
     }
 
     async startEngine(): Promise<void> {
-        this.setStore(true);
         const { velocity, distance } = await startEngine(this.id);
         this.driveObj.distance = distance;
         this.driveObj.time = Math.round(distance / velocity);
         this.driveObj.distanceHtml = this.trackAnimation.offsetWidth - this.containerCar.offsetWidth - 5;
         this.containerCar.style.opacity = '1';
+        this.headlight.style.opacity = '1'
         this.race ? this.driveCar() : '';
     }
 
@@ -81,7 +83,6 @@ export default class ControlCar implements IControlCar {
             stop = false;
             car.style.transform = 'translateX(0px)';
             this.stopCar(idAnimation, this.id);
-            this.setStore(false);
             this.offButtonStopGarage();
         });
 
@@ -89,12 +90,13 @@ export default class ControlCar implements IControlCar {
         if (statusDrive.status === 500 && stop) {
             this.stopCar(idAnimation, this.id);
             this.engineImg.classList.add('engine-broken_active');
-            this.setStore(false);
         } else if (statusDrive.status === 200) {
-            this.setStore(false);
+            this.stopCar(idAnimation, this.id);
         }
     }
     async stopCar(idAnimation: number, id: number) {
+        this.headlight.style.opacity = '0'
+        this.race ? buttonActive() : '';
         window.cancelAnimationFrame(idAnimation);
         await stopEngine(id);
     }
@@ -103,24 +105,15 @@ export default class ControlCar implements IControlCar {
         this.engineImg.classList.remove('engine-broken_active');
         this.startCar.classList.remove('control-button_disable');
         this.resetCar.classList.add('control-button_disable');
-        this.changeCar.classList.remove('control-button_disable');
     }
 
     onButtonStopGarage(): void {
         this.startCar.classList.add('control-button_disable');
-        this.changeCar.classList.add('control-button_disable');
         this.resetCar.classList.add('control-button_disable');
         this.race ? this.resetCar.classList.remove('control-button_disable') : '';
     }
 
     async setRaceMode(value: boolean): Promise<void> {
         this.race = value;
-    }
-
-    setStore(value: boolean): void {
-        store.dispatch({
-            type: ACTIONS.raceSingle,
-            isCheck: value,
-        });
     }
 }
