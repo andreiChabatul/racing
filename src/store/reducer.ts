@@ -1,52 +1,53 @@
 import { IState, IStateAction } from '../types/index';
 
-const initalState: IState = {
-    display: 'garage',
-    garagePage: 1,
-    winnersPage: 1,
-    amountCar: 1,
-    amountWinner: 1,
-    IsCheckAmount: true,
-    sortWinners: 'wins',
-    orderWinners: 'ASC',
+export const initalState: IState = {
+  display: 'garage',
+  garagePage: 1,
+  winnersPage: 1,
+  amountCar: 1,
+  amountWinner: 1,
+  IsCheckAmount: true,
+  sortWinners: 'wins',
+  orderWinners: 'ASC',
 };
 
 export function reducer(state: IState = initalState, action: IStateAction) {
-    switch (action.type) {
-        case 'WINNER':
-            state.display = 'winner';
-            break;
-        case 'GARAGE':
-            state.display = 'garage';
-            break;
-        case 'INIT':
-            state = initalState;
-            break;
-        case 'COUNT_CAR':
-            state.amountCar = Number(action.parametr);
-            state.IsCheckAmount = Boolean(action.isCheck);
-            break;
-        case 'GARAGE_PAGE':
-            state.garagePage = Number(action.parametr);
-            state.IsCheckAmount = true;
-            break;
-        case 'WINNERS_PAGE':
-            state.winnersPage = Number(action.parametr);
-            state.IsCheckAmount = true;
-            break;
-        case 'UPDATE':
-            state.IsCheckAmount = Boolean(action.isCheck);
-            break;
-        case 'COUNT_WINNERS':
-            action.parametr ? (state.amountWinner = Number(action.parametr)) : '';
-            break;
-        case 'SORT_WINNERS':
-            action.parametr ? (state.amountWinner = Number(action.parametr)) : '';
-            action.sortWinners ? (state.sortWinners = action.sortWinners) : '';
-            state.orderWinners === 'ASC' ? (state.orderWinners = 'DESC') : (state.orderWinners = 'ASC');
-            state.IsCheckAmount = true;
-            break;
-    }
-
-    return state;
+  let stateUpdate = Object.assign(state);
+  switch (action.type) {
+    case 'WINNER':
+      stateUpdate.display = 'winner';
+      return stateUpdate;
+    case 'GARAGE':
+      stateUpdate.display = 'garage';
+      return stateUpdate;
+    case 'INIT':
+      stateUpdate = initalState;
+      return stateUpdate;
+    case 'COUNT_CAR':
+      stateUpdate.amountCar = Number(action.parametr);
+      stateUpdate.IsCheckAmount = Boolean(action.isCheck);
+      return stateUpdate;
+    case 'GARAGE_PAGE':
+      stateUpdate.garagePage = Number(action.parametr);
+      stateUpdate.IsCheckAmount = true;
+      return stateUpdate;
+    case 'WINNERS_PAGE':
+      stateUpdate.winnersPage = Number(action.parametr);
+      stateUpdate.IsCheckAmount = true;
+      return stateUpdate;
+    case 'UPDATE':
+      stateUpdate.IsCheckAmount = Boolean(action.isCheck);
+      return stateUpdate;
+    case 'COUNT_WINNERS':
+      if (action.parametr) stateUpdate.amountWinner = Number(action.parametr);
+      return stateUpdate;
+    case 'SORT_WINNERS':
+      if (action.parametr) stateUpdate.amountWinner = Number(action.parametr);
+      if (action.sortWinners) stateUpdate.sortWinners = action.sortWinners;
+      if (stateUpdate.orderWinners === 'ASC') { stateUpdate.orderWinners = 'DESC'; } else { stateUpdate.orderWinners = 'ASC'; }
+      stateUpdate.IsCheckAmount = true;
+      return stateUpdate;
+    default:
+      return state;
+  }
 }

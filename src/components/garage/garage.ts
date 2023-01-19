@@ -1,49 +1,50 @@
 import { ACTIONS, MAX_LIMIT_GARAGE } from '../../CONST/const';
-import { store } from '../../store/store';
+import store from '../../store/store';
 import { IComponentHeader } from '../../types/index';
 import { getCars } from '../../utils/apiLoader';
 import CreateElement from '../../utils/CreateElement';
 import GarageHeader from './garageHeader/garageHeader';
 import RacingTrack from './racingTrack/racingTrack';
 import './garage.css';
-import RaceMode from './garageHeader/raceMode/raceMode';
+import raceMode from './garageHeader/raceMode/raceMode';
 
 export default class Garage {
-    cartsContainer: HTMLDivElement;
-    headerGarage: IComponentHeader;
+  cartsContainer: HTMLDivElement;
 
-    constructor() {
-        this.cartsContainer = CreateElement.createDivElement('cars-container');
-        this.headerGarage = new GarageHeader();
-    }
+  headerGarage: IComponentHeader;
 
-    render(): HTMLDivElement {
-        store.subscribe(() => this.update());
-        const garageContainer = CreateElement.createDivElement('garage-container');
-        garageContainer.append(this.headerGarage.render(), this.cartsContainer);
-        return garageContainer;
-    }
+  constructor() {
+    this.cartsContainer = CreateElement.createDivElement('cars-container');
+    this.headerGarage = new GarageHeader();
+  }
 
-    clear() {
-        this.cartsContainer.innerHTML = '';
-    }
+  render(): HTMLDivElement {
+    store.subscribe(() => this.update());
+    const garageContainer = CreateElement.createDivElement('garage-container');
+    garageContainer.append(this.headerGarage.render(), this.cartsContainer);
+    return garageContainer;
+  }
 
-    async update() {
-        const actualState = store.getState();
-        if (actualState.IsCheckAmount) {
-            const response = await getCars(actualState.garagePage, MAX_LIMIT_GARAGE);
-            let amount = '1';
-            response.amount ? (amount = response.amount) : '';
-            store.dispatch({
-                type: ACTIONS.countCar,
-                parametr: amount,
-                isCheck: false,
-            });
-            this.clear();
-            RaceMode.clearCar();
-            response.items.forEach((element) => {
-                this.cartsContainer.append(new RacingTrack(element).render());
-            });
-        }
+  clear() {
+    this.cartsContainer.innerHTML = '';
+  }
+
+  async update() {
+    const actualState = store.getState();
+    if (actualState.IsCheckAmount) {
+      const response = await getCars(actualState.garagePage, MAX_LIMIT_GARAGE);
+      let amount = '1';
+      if (response.amount) amount = response.amount;
+      store.dispatch({
+        type: ACTIONS.countCar,
+        parametr: amount,
+        isCheck: false,
+      });
+      this.clear();
+      raceMode.clearCar();
+      response.items.forEach((element) => {
+        this.cartsContainer.append(new RacingTrack(element).render());
+      });
     }
+  }
 }

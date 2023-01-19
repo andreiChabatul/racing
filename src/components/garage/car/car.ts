@@ -4,23 +4,24 @@ import carIco from '../../../assets/img/car.png';
 import './car.css';
 
 export default class Car implements ICar {
-    car: ICarResponse;
-    carElement: HTMLDivElement;
+  car: ICarResponse;
 
-    constructor(car: ICarResponse) {
-        this.car = car;
-        this.carElement = CreateElement.createDivElement('car');
-    }
+  carElement: HTMLDivElement;
 
-    render(): HTMLDivElement {
-        const carImg = CreateElement.createImgElement('car-ico', carIco);
-        const headlight = CreateElement.createDivElement('car-headlight');
-        this.carElement.append(carImg, headlight);
-        this.carElement.style.background = this.car.color;
-        return this.carElement;
-    }
+  constructor(car: ICarResponse) {
+    this.car = car;
+    this.carElement = CreateElement.createDivElement('car');
+  }
 
-    update(): void {
-        this.carElement.style.background = this.car.color;
-    }
+  render(): HTMLDivElement {
+    const carImg = CreateElement.createImgElement('car-ico', carIco);
+    const headlight = CreateElement.createDivElement('car-headlight');
+    this.carElement.append(carImg, headlight);
+    this.carElement.style.background = this.car.color;
+    return this.carElement;
+  }
+
+  update(): void {
+    this.carElement.style.background = this.car.color;
+  }
 }
