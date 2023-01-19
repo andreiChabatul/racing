@@ -5,7 +5,6 @@ export const initalState: IState = {
   garagePage: 1,
   winnersPage: 1,
   amountCar: 1,
-  amountWinner: 1,
   IsCheckAmount: true,
   sortWinners: 'wins',
   orderWinners: 'ASC',
@@ -37,9 +36,6 @@ export function reducer(state: IState = initalState, action: IStateAction) {
       return stateUpdate;
     case 'UPDATE':
       stateUpdate.IsCheckAmount = Boolean(action.isCheck);
-      return stateUpdate;
-    case 'COUNT_WINNERS':
-      if (action.parametr) stateUpdate.amountWinner = Number(action.parametr);
       return stateUpdate;
     case 'SORT_WINNERS':
       if (action.parametr) stateUpdate.amountWinner = Number(action.parametr);

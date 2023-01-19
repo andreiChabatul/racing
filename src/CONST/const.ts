@@ -5,7 +5,6 @@ export enum ACTIONS {
   garage = 'GARAGE',
   winner = 'WINNER',
   countCar = 'COUNT_CAR',
-  countWinners = 'COUNT_WINNERS',
   garagePage = 'GARAGE_PAGE',
   update = 'UPDATE',
   sortWinners = 'SORT_WINNERS',
@@ -16,7 +15,8 @@ export const GARAGE_BASE = `${BASE}/garage`;
 export const ENGINE_BASE = `${BASE}/engine`;
 export const WINNER_BASE = `${BASE}/winners`;
 export const MAX_RANDOM = 100;
-export const MAX_LIMIT_WINNERS = 10;
+export const MAX_LIMIT_WINNERS = 1;
+export const MAX_LIMIT_WINNERS_CHECK = 1000;
 export const MAX_LIMIT_GARAGE = 7;
 export const BRAND_CAR: string[] = [
   'Audi',

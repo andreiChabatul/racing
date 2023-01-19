@@ -2,7 +2,7 @@ import {
   ACTIONS,
   BODY,
   BRAND_CAR,
-  MAX_LIMIT_WINNERS,
+  MAX_LIMIT_WINNERS_CHECK,
   MODEL_CAR,
 } from '../CONST/const';
 import store from '../store/store';
@@ -51,16 +51,12 @@ export function parseUrl(url: string): string {
   return resultId;
 }
 
-export async function getAllWinners() {
+export async function getAllWinners(): Promise<number[]> {
   const winnersAll: number[] = [];
-  const actualState = store.getState();
-  const maxPage = Math.ceil(actualState.amountWinner / MAX_LIMIT_WINNERS);
-  for (let i = 1; i < maxPage + 1; i += 1) {
-    const item = (await getWinners(i, MAX_LIMIT_WINNERS, 'id', 'ASC')).items;
-    item.forEach((element) => {
-      winnersAll.push(element.id);
-    });
-  }
+  const item: ICarWin[] = (await getWinners(1, MAX_LIMIT_WINNERS_CHECK, '', '')).items;
+  item.forEach((element) => {
+    winnersAll.push(element.id);
+  });
   return winnersAll;
 }
 
@@ -77,7 +73,7 @@ export async function winnerProcessing(id: number, time: number) {
     await updateWinner(id, option);
   } else {
     const option: ICarWin = {
-      id: id,
+      id,
       wins: 1,
       time: time / 1000,
     };

@@ -68,9 +68,16 @@ export interface IRaceMode {
 }
 
 export interface driveObj {
+  id: number,
   distanceHtml: number,
   time: number,
   distance: number,
+}
+
+export interface IResponceDriveCar {
+  status: number,
+  id: number,
+  time: number,
 }
 
 export interface IControlCar {
@@ -84,8 +91,8 @@ export interface IControlCar {
   race: boolean,
   initAnimation: number,
   render(): HTMLDivElement,
-  startEngine(): Promise<void>,
-  driveCar(): Promise<void>,
+  startEngineCar(): Promise<boolean>,
+  driveCarStart(): Promise<IResponceDriveCar>,
   offButtonStopGarage(): void,
   onButtonStopGarage(): void,
   setRaceMode(value: boolean): Promise<void>,
@@ -96,7 +103,6 @@ export interface IState {
   garagePage: number,
   amountCar: number,
   winnersPage: number,
-  amountWinner: number,
   IsCheckAmount: boolean,
   sortWinners: 'wins' | 'time',
   orderWinners: 'ASC' | 'DESC',

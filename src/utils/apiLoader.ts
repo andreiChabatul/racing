@@ -1,4 +1,3 @@
-import raceMode from '../components/garage/garageHeader/raceMode/raceMode';
 import { ENGINE_BASE, GARAGE_BASE, WINNER_BASE } from '../CONST/const';
 import {
   ICarResponse,
@@ -31,7 +30,7 @@ export async function updateCar(id: number, option: IUpdateCar) {
 export async function workCar(id: string, method: string): Promise<ICarResponse> {
   return (
     await fetch(`${GARAGE_BASE}/${id}`, {
-      method: method,
+      method,
     })
   ).json();
 }
@@ -64,7 +63,6 @@ export async function driveCar(id: number): Promise<Response> {
   const response = await fetch(`${ENGINE_BASE}?id=${id}&status=drive`, {
     method: 'PATCH',
   }).catch();
-  raceMode.pushWin(response);
   return response;
 }
 
@@ -102,7 +100,7 @@ export async function createWinner(option: ICarWin) {
 export async function workWinner(id: string, method: string): Promise<ICarWin> {
   return (
     await fetch(`${WINNER_BASE}/${id}`, {
-      method: method,
+      method,
     })
   ).json();
 }

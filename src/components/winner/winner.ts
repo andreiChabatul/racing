@@ -1,6 +1,6 @@
 import { ACTIONS, MAX_LIMIT_WINNERS } from '../../CONST/const';
 import store from '../../store/store';
-import { getWinners, workCar } from '../../utils/apiLoader';
+import { getWinners } from '../../utils/apiLoader';
 import CreateElement from '../../utils/CreateElement';
 import DescriptionWin from './descriptionWin/descriptionWin';
 import PaginationWinner from './paginationWinner/paginationWinner';
@@ -46,23 +46,15 @@ export default class Winner {
     if (actualState.orderWinners === 'DESC') { textSpan = '↓'; } else { textSpan = '↑'; }
     this.arrayButtonWin.textContent = textSpan;
     this.arrayButtonTime.textContent = textSpan;
-    if (actualState.IsCheckAmount) {
-      const responce = await getWinners(
-        actualState.winnersPage,
-        MAX_LIMIT_WINNERS,
-        actualState.sortWinners,
-        actualState.orderWinners,
-      );
-      const winners = responce.items;
-      if (responce.count) this.amount = responce.count;
-      this.clear();
-      for (let i = 0; i < winners.length; i += 1) {
-        this.winnerList.append(new DescriptionWin(winners[i], i + 1).render());
-      }
-      store.dispatch({
-        type: ACTIONS.countWinners,
-        parametr: this.amount,
-      });
+    const winners = (await getWinners(
+      actualState.winnersPage,
+      MAX_LIMIT_WINNERS,
+      actualState.sortWinners,
+      actualState.orderWinners,
+    )).items;
+    this.clear();
+    for (let i = 0; i < winners.length; i += 1) {
+      this.winnerList.append(new DescriptionWin(winners[i], i + 1).render());
     }
   }
 

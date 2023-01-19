@@ -7,31 +7,34 @@ import { workCar } from '../../../utils/apiLoader';
 export default class DescriptionWin {
   infoWin: ICarWin;
 
+  descCar: HTMLDivElement;
+
+  descName: HTMLSpanElement;
+
   numberCar: number;
 
   constructor(infoWin: ICarWin, numberCar: number) {
-    console.log(infoWin)
     this.infoWin = infoWin;
     this.numberCar = numberCar;
+    this.descCar = CreateElement.createDivElement('description-container__car');
+    this.descName = CreateElement.createSpanElement('description-container__text');
   }
 
   render(): HTMLDivElement {
     const descriptionContainer = CreateElement.createDivElement('description-container');
     const descItem = CreateElement.createSpanElement('description-container__text', this.numberCar);
-    const descCar = CreateElement.createDivElement('description-container__car');
     const descCarImg = CreateElement.createImgElement('description-container__car_img', carWin);
-    const descName = CreateElement.createSpanElement('description-container__text', this.car.name);
     const descWin = CreateElement.createSpanElement('description-container__text', this.infoWin.wins);
     const descTime = CreateElement.createSpanElement('description-container__text', `${this.infoWin.time} sec.`);
-    descCar.style.background = this.car.color;
-    descCar.append(descCarImg);
-    descriptionContainer.append(descItem, descCar, descName, descWin, descTime);
-    this.getCarInfo()
+    this.descCar.append(descCarImg);
+    descriptionContainer.append(descItem, this.descCar, this.descName, descWin, descTime);
+    this.getCarInfo();
     return descriptionContainer;
   }
 
   async getCarInfo() {
-    const car: ICarResponse = await workCar(String(this.infoWin), 'GET');
-    console.log(car)
+    const car: ICarResponse = await workCar(String(this.infoWin.id), 'GET');
+    this.descName.textContent = car.name;
+    this.descCar.style.background = car.color;
   }
 }

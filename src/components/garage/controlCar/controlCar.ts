@@ -3,7 +3,7 @@ import startIco from '../../../assets/img/startIco.png';
 import resetIco from '../../../assets/img/resetIco.png';
 import { driveCar, startEngine, stopEngine } from '../../../utils/apiLoader';
 import ehgineBroken from '../../../assets/img/engineBroken.gif';
-import { driveObj, IControlCar } from '../../../types/index';
+import { driveObj, IControlCar, IResponceDriveCar } from '../../../types/index';
 import './controlCar.css';
 import { buttonActive, buttonDisable } from '../../../utils/additionalFunctions';
 import raceMode from '../garageHeader/raceMode/raceMode';
@@ -42,6 +42,7 @@ export default class ControlCar implements IControlCar {
     this.race = true;
     this.IsFinish = true;
     this.driveObj = {
+      id: this.id,
       distanceHtml: 0,
       time: 0,
       distance: 0,
@@ -57,14 +58,13 @@ export default class ControlCar implements IControlCar {
     this.resetCar.classList.add('control-button_disable');
     controlCar.append(this.startCar, this.resetCar);
     this.headlight = this.containerCar.childNodes[0].childNodes[1] as HTMLDivElement;
-    this.startCar.addEventListener('click', () => this.startEngine());
+    this.startCar.addEventListener('click', () => this.startEngineCar());
     return controlCar;
   }
 
-  async startEngine(): Promise<void> {
+  async startEngineCar(): Promise<boolean> {
     if (this.IsFinish) {
       buttonDisable();
-      raceMode.pushRaceCar(this.id);
       this.IsFinish = false;
       const { velocity, distance } = await startEngine(this.id);
       this.driveObj.distance = distance;
@@ -72,11 +72,12 @@ export default class ControlCar implements IControlCar {
       this.driveObj.distanceHtml = this.trackAnimation.offsetWidth - this.containerCar.offsetWidth;
       this.containerCar.style.opacity = '1';
       this.headlight.style.opacity = '1';
-      if (this.race) this.driveCar();
+      if (this.race) this.driveCarStart();
     }
+    return true;
   }
 
-  async driveCar(): Promise<void> {
+  async driveCarStart(): Promise<IResponceDriveCar> {
     const { distanceHtml, time, distance } = this.driveObj;
     const car = this.containerCar;
     let idAnimation: number;
@@ -104,15 +105,18 @@ export default class ControlCar implements IControlCar {
     const statusDrive = await driveCar(this.id);
     if (statusDrive.status === 500 && stop) this.engineImg.classList.add('engine-broken_active');
     this.IsFinish = true;
-    raceMode.getRaceCar().shift();
     this.stopCar(idAnimation);
+    return {
+      status: statusDrive.status,
+      id: this.id,
+      time: time
+    }
   }
 
   async stopCar(idAnimation: number) {
     window.cancelAnimationFrame(idAnimation);
     if (this.IsFinish) {
       if (this.race) this.startCar.classList.remove('control-button_disable');
-      if (raceMode.getRaceCar().length === 0) buttonActive();
       this.headlight.style.opacity = '0';
     }
   }

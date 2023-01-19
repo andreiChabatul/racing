@@ -3,7 +3,7 @@ import CreateElement from '../../../utils/CreateElement';
 import Car from '../car/car';
 import ChangeCar from '../changeCar/changeCar';
 import ControlCar from '../controlCar/controlCar';
-import RaceMode from '../garageHeader/raceMode/raceMode';
+import raceMode from '../garageHeader/raceMode/raceMode';
 import './racingTrack.css';
 
 export default class RacingTrack {
@@ -24,9 +24,8 @@ export default class RacingTrack {
     const carRacing = new Car(this.car);
     const changeCar = new ChangeCar(carRacing).render();
     const controlCar = new ControlCar(carContainer, trackAnimation);
-    RaceMode.pushCar(controlCar);
+    raceMode.pushCar(controlCar);
     carContainer.append(carRacing.render());
-
     trackAnimation.append(carContainer);
     controlBlock.append(changeCar, controlCar.render());
     racingTrack.append(controlBlock, startBlock, centralBlock, finishBlock, trackAnimation);
