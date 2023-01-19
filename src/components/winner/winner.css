@@ -19,6 +19,14 @@
   padding: 5px;
 }
 
-.winner-container__button:hover{
+.winner-container__button_active {
+  background: var(--BUTTON_ACTIVE);
+}
+
+.winner-container__button:hover {
   background: var(--COLOR_BACKGROUND_BLACK);
+}
+
+.array-button {
+  opacity: 0;
 }

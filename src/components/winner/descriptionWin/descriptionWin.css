@@ -3,7 +3,7 @@
   background: var(--COLOR_DEFAULT);
   display: grid;
   height: 40px;
-  grid-template-columns: 25px 75px 180px 35px 110px;
+  grid-template-columns: 25px 75px 180px 35px 110px 100px;
   border-radius: 10px;
   border: 2px solid var(--COLOR_BACKGROUND_BLACK);
   align-items: center;

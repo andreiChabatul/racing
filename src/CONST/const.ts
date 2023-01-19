@@ -5,8 +5,11 @@ export enum ACTIONS {
     garage = 'GARAGE',
     winner = 'WINNER',
     countCar = 'COUNT_CAR',
+    countWinners = 'COUNT_WINNERS',
     garagePage = 'GARAGE_PAGE',
     update = 'UPDATE',
+    sortWinners = 'SORT_WINNERS',
+    winnersPage = 'WINNERS_PAGE',
 }
 
 export const GARAGE_BASE = `${BASE}/garage`;

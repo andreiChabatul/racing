@@ -1,4 +1,4 @@
-import { ACTIONS, BODY, BRAND_CAR, MAX_LIMIT_GARAGE, MAX_LIMIT_WINNERS, MODEL_CAR } from '../CONST/const';
+import { ACTIONS, BODY, BRAND_CAR, MAX_LIMIT_WINNERS, MODEL_CAR } from '../CONST/const';
 import { store } from '../store/store';
 import { ICarWin, ICarWinUpdate, IUrlObj } from '../types/index';
 import { createWinner, getWinner, getWinners, updateWinner, workCar, workWinner } from './apiLoader';
@@ -47,7 +47,7 @@ export async function winnerProcessing(id: number, time: number) {
         const car = await getWinner(String(id));
         resultTime > car.time ? (resultTime = car.time) : '';
         const option: ICarWinUpdate = {
-            wins: car.wins++,
+            wins: (car.wins += 1),
             time: resultTime,
         };
         await updateWinner(id, option);
@@ -61,26 +61,22 @@ export async function winnerProcessing(id: number, time: number) {
     }
 }
 
-export function nextPageGarage() {
+export function nextPage(parametr: 'winnersPage' | 'garagePage') {
     const actualState = store.getState();
-    const maxPage = Math.ceil(actualState.amountCar / MAX_LIMIT_GARAGE);
-    let resultPage = actualState.garagePage + 1;
-    resultPage > maxPage ? (resultPage = actualState.garagePage) : '';
+    const resultPage = actualState[parametr] + 1;
     store.dispatch({
-        type: ACTIONS.garagePage,
+        type: ACTIONS[parametr],
         parametr: resultPage,
-        isCheck: true,
     });
 }
 
-export function prevPageGarage() {
+export function prevPage(parametr: 'winnersPage' | 'garagePage') {
     const actualState = store.getState();
-    let resultPage = actualState.garagePage - 1;
+    let resultPage = actualState[parametr] - 1;
     resultPage < 1 ? (resultPage = 1) : '';
     store.dispatch({
-        type: ACTIONS.garagePage,
+        type: ACTIONS[parametr],
         parametr: resultPage,
-        isCheck: true,
     });
 }
 
@@ -96,8 +92,8 @@ export function buttonActive() {
 
 export async function getAllWinners() {
     const winnersAll: number[] = [];
-    const winners = await getWinners(1, MAX_LIMIT_WINNERS, 'id', 'ASC');
-    const maxPage = Math.ceil(Number(winners.count) / MAX_LIMIT_WINNERS);
+    const actualState = store.getState();
+    const maxPage = Math.ceil(actualState.amountWinner / MAX_LIMIT_WINNERS);
     for (let i = 1; i < maxPage + 1; i++) {
         const item = (await getWinners(i, MAX_LIMIT_WINNERS, 'id', 'ASC')).items;
         item.forEach((element) => {

@@ -1,0 +1,22 @@
+.winner-pagination {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.button-winner {
+  cursor: pointer;
+  font-size: 28px;
+  color: var(--COLOR_FONT_BROWM);
+  transition: .4s;
+}
+
+.winner-pagination__text {
+  font-size: 18px;
+  color: var(--COLOR_FONT_BROWM);
+}
+
+.button-winner:hover {
+  transform: scale(1.05);
+  color: var(--COLOR_DEFAULT_HOVER);
+}

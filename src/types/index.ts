@@ -95,11 +95,16 @@ export interface IState {
   display: 'garage' | 'winner',
   garagePage: number,
   amountCar: number,
+  winnersPage: number,
+  amountWinner: number,
   IsCheckAmount: boolean,
+  sortWinners: 'wins' | 'time',
+  orderWinners: 'ASC' | 'DESC',
 }
 
 export interface IStateAction {
   type: string,
   parametr?: number | string,
   isCheck?: boolean,
+  sortWinners?: 'wins' | 'time',
 }
