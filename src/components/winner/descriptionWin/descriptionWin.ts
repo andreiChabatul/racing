@@ -2,16 +2,15 @@ import { ICarResponse, ICarWin } from '../../../types/index';
 import CreateElement from '../../../utils/CreateElement';
 import carWin from '../../../assets/img/carWin.png';
 import './descriptionWin.css';
+import { workCar } from '../../../utils/apiLoader';
 
 export default class DescriptionWin {
-  car: ICarResponse;
-
   infoWin: ICarWin;
 
   numberCar: number;
 
-  constructor(car: ICarResponse, infoWin: ICarWin, numberCar: number) {
-    this.car = car;
+  constructor(infoWin: ICarWin, numberCar: number) {
+    console.log(infoWin)
     this.infoWin = infoWin;
     this.numberCar = numberCar;
   }
@@ -27,6 +26,12 @@ export default class DescriptionWin {
     descCar.style.background = this.car.color;
     descCar.append(descCarImg);
     descriptionContainer.append(descItem, descCar, descName, descWin, descTime);
+    this.getCarInfo()
     return descriptionContainer;
+  }
+
+  async getCarInfo() {
+    const car: ICarResponse = await workCar(String(this.infoWin), 'GET');
+    console.log(car)
   }
 }

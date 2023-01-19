@@ -57,8 +57,7 @@ export default class Winner {
       if (responce.count) this.amount = responce.count;
       this.clear();
       for (let i = 0; i < winners.length; i += 1) {
-        const car = await workCar(String(winners[i].id), 'GET');
-        this.winnerList.append(new DescriptionWin(car, winners[i], i + 1).render());
+        this.winnerList.append(new DescriptionWin(winners[i], i + 1).render());
       }
       store.dispatch({
         type: ACTIONS.countWinners,
