@@ -74,6 +74,10 @@ export interface driveObj {
   distance: number,
 }
 
+export interface IAnimation {
+  idAnimation: number,
+}
+
 export interface IResponceDriveCar {
   id: number,
   time: number,
@@ -92,6 +96,8 @@ export interface IControlCar {
   render(): HTMLDivElement,
   startEngineCar(): Promise<boolean>,
   driveCarStart(): Promise<IResponceDriveCar>,
+  stopEngineCar(): Promise<void>,
+  resetCarInit(): Promise<boolean>,
   offButtonStopGarage(): void,
   onButtonStopGarage(): void,
   setRaceMode(value: boolean): void,

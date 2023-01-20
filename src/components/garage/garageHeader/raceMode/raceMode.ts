@@ -60,10 +60,10 @@ class RaceMode implements IRaceMode {
 
   async startRace() {
     this.IsRace = true;
+    this.amountCar = 0;
     const startEngineCar: Promise<boolean>[] = [];
     const driveCarArr: Promise<IResponceDriveCar>[] = [];
     this.carControl.forEach((car) => {
-      this.amountCar += 1;
       car.setRaceMode(false);
       startEngineCar.push(car.startEngineCar());
     });
@@ -76,13 +76,19 @@ class RaceMode implements IRaceMode {
     this.renderWin(winnerCar);
   }
 
-  resetRace() {
+  async resetRace() {
+    const stopRace: Promise<boolean>[] = [];
     this.IsRace = false;
     this.winContainer.classList.remove('win-container_active');
     this.resetButton.classList.remove('button-state_active');
-    this.carControl.forEach((element) => {
-      element.resetCar.click();
+    this.carControl.forEach((car) => {
+      stopRace.push(car.resetCarInit());
     });
+    await Promise.all(stopRace);
+  }
+
+  setAmountCar() {
+    this.amountCar += 1;
   }
 
   checkAmountCar() {
