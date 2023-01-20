@@ -1,6 +1,6 @@
 import { MAX_LIMIT_GARAGE } from '../../../../CONST/const';
 import store from '../../../../store/store';
-import { nextPage, prevPage } from '../../../../utils/additionalFunctions';
+import { pagination } from '../../../../utils/additionalFunctions';
 import CreateElement from '../../../../utils/CreateElement';
 import './paginationGarage.css';
 
@@ -29,8 +29,8 @@ export default class PaginationGarage {
   }
 
   eventListener() {
-    this.nextPage.addEventListener('click', () => nextPage('garagePage'));
-    this.prevPage.addEventListener('click', () => prevPage('garagePage'));
+    this.nextPage.addEventListener('click', () => pagination('garagePage', 'next'));
+    this.prevPage.addEventListener('click', () => pagination('garagePage', 'prev'));
   }
 
   update() {

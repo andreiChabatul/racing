@@ -1,3 +1,4 @@
+import { ACTIONS } from '../CONST/const';
 import { IState, IStateAction } from '../types/index';
 
 export const initalState: IState = {
@@ -10,7 +11,10 @@ export const initalState: IState = {
   orderWinners: 'ASC',
 };
 
-export function reducer(state: IState = initalState, action: IStateAction) {
+export function reducer(
+  state: IState = initalState,
+  action: IStateAction = { type: ACTIONS.init },
+) {
   let stateUpdate = Object.assign(state);
   switch (action.type) {
     case 'WINNER':
@@ -35,7 +39,7 @@ export function reducer(state: IState = initalState, action: IStateAction) {
       stateUpdate.IsCheckAmount = true;
       return stateUpdate;
     case 'UPDATE':
-      stateUpdate.IsCheckAmount = Boolean(action.isCheck);
+      stateUpdate.IsCheckAmount = true;
       return stateUpdate;
     case 'SORT_WINNERS':
       if (action.parametr) stateUpdate.amountWinner = Number(action.parametr);

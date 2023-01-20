@@ -33,7 +33,7 @@ export default class DescriptionWin {
   }
 
   async getCarInfo() {
-    const car: ICarResponse = await workCar(String(this.infoWin.id), 'GET');
+    const car: ICarResponse = await workCar(this.infoWin.id, 'GET');
     this.descName.textContent = car.name;
     this.descCar.style.background = car.color;
   }

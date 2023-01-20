@@ -1,6 +1,6 @@
 import { MAX_LIMIT_WINNERS } from '../../../CONST/const';
 import store from '../../../store/store';
-import { nextPage, prevPage } from '../../../utils/additionalFunctions';
+import { pagination } from '../../../utils/additionalFunctions';
 import { getWinners } from '../../../utils/apiLoader';
 import CreateElement from '../../../utils/CreateElement';
 import './paginationWinner.css';
@@ -27,8 +27,8 @@ export default class PaginationWinner {
   }
 
   eventListener() {
-    this.nextPage.addEventListener('click', () => nextPage('winnersPage'));
-    this.prevPage.addEventListener('click', () => prevPage('winnersPage'));
+    this.nextPage.addEventListener('click', () => pagination('winnersPage', 'next'));
+    this.prevPage.addEventListener('click', () => pagination('winnersPage', 'prev'));
   }
 
   async update() {
@@ -38,7 +38,7 @@ export default class PaginationWinner {
     this.nextPage.classList.remove('button_disable');
     this.prevPage.classList.remove('button_disable');
     if (actualState.winnersPage === 1) this.prevPage.classList.add('button_disable');
-    if (actualState.winnersPage === maxPage) this.nextPage.classList.add('button_disable');
+    if (actualState.winnersPage === maxPage || maxPage === 0) this.nextPage.classList.add('button_disable');
     this.amountPage.textContent = `${actualState.winnersPage}/${maxPage}`;
   }
 }

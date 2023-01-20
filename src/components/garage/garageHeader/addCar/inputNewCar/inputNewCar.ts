@@ -25,7 +25,7 @@ export default class InputNewCar {
     };
     this.containerInput = CreateElement.createDivElement('new-car-input-container');
     this.inputTextCar = CreateElement.createInputElement('new-car__input_text', 'Enter name', '', 'text');
-    this.inputColorCar = CreateElement.createInputElement('new-car__input_color', '', '', 'color', '000000');
+    this.inputColorCar = CreateElement.createInputElement('new-car__input_color', '', '', 'color', '#000000');
     this.addCar = CreateElement.createButtonElement('button-car-new', 'add new car');
     this.close = CreateElement.createDivElement('close-change');
   }

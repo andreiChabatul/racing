@@ -6,7 +6,11 @@ import {
   MODEL_CAR,
 } from '../CONST/const';
 import store from '../store/store';
-import { ICarWin, ICarWinUpdate, IUrlObj } from '../types/index';
+import {
+  ICarWin,
+  ICarWinUpdate,
+  IResponceDriveCar,
+} from '../types/index';
 import {
   createWinner,
   getWinner,
@@ -16,39 +20,14 @@ import {
   workWinner,
 } from './apiLoader';
 
-export function shuffle<T>(array: T[]) {
-  for (let i = array.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
 export function generateRandomColor(): string {
-  const result = [];
-  const hexRef = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
-  shuffle(hexRef);
-  for (let n = 0; n < 6; n += 1) {
-    result.push(hexRef[n]);
-  }
-  return `#${result.join('')}`;
+  return `#${Math.random().toString(16).slice(3, 9)}`;
 }
 
 export function generateRandomName(): string {
   const indexBrand = Math.floor(Math.random() * BRAND_CAR.length);
   const indexModel = Math.floor(Math.random() * MODEL_CAR.length);
   return `${BRAND_CAR[indexBrand]} ${MODEL_CAR[indexModel]}`;
-}
-
-export function parseUrl(url: string): string {
-  let resultId = '0';
-  const parseObj: IUrlObj = {};
-  const arr = url.split('?')[1].split('&');
-  arr.forEach((element) => {
-    const [type, parametr] = element.split('=');
-    if (type === 'id' || type === 'status') parseObj[type] = parametr;
-  });
-  if (parseObj.id) resultId = parseObj.id;
-  return resultId;
 }
 
 export async function getAllWinners(): Promise<number[]> {
@@ -60,60 +39,66 @@ export async function getAllWinners(): Promise<number[]> {
   return winnersAll;
 }
 
-export async function winnerProcessing(id: number, time: number) {
+export async function winnerProcessing(winner: IResponceDriveCar) {
   const actualWinners = await getAllWinners();
-  if (actualWinners.includes(id)) {
-    let resultTime: number = time / 1000;
-    const car = await getWinner(String(id));
+  if (actualWinners.includes(winner.id)) {
+    let resultTime: number = winner.time / 1000;
+    const car = await getWinner(winner.id);
     if (resultTime > car.time) resultTime = car.time;
     const option: ICarWinUpdate = {
       wins: (car.wins += 1),
       time: resultTime,
     };
-    await updateWinner(id, option);
+    updateWinner(winner.id, option);
   } else {
     const option: ICarWin = {
-      id,
+      id: winner.id,
       wins: 1,
-      time: time / 1000,
+      time: winner.time / 1000,
     };
-    await createWinner(option);
+    createWinner(option);
   }
 }
 
-export function nextPage(parametr: 'winnersPage' | 'garagePage') {
+export function pagination(parametr: 'winnersPage' | 'garagePage', action: 'next' | 'prev') {
   const actualState = store.getState();
-  const resultPage = actualState[parametr] + 1;
+  let resultPage = 1;
+  switch (action) {
+    case ('next'):
+      resultPage = actualState[parametr] + 1;
+      break;
+    case ('prev'):
+      resultPage = actualState[parametr] - 1;
+      if (resultPage < 1) resultPage = 1;
+      break;
+    default:
+      break;
+  }
   store.dispatch({
     type: ACTIONS[parametr],
     parametr: resultPage,
   });
 }
 
-export function prevPage(parametr: 'winnersPage' | 'garagePage') {
-  const actualState = store.getState();
-  let resultPage = actualState[parametr] - 1;
-  if (resultPage < 1) resultPage = 1;
-  store.dispatch({
-    type: ACTIONS[parametr],
-    parametr: resultPage,
-  });
-}
-
-export function buttonDisable() {
-  BODY.style.setProperty('--BUTTON_OPACITY_DISABLE', '.5');
-  BODY.style.setProperty('--BUTTON_EVENT_DISABLE', 'none');
-}
-
-export function buttonActive() {
-  BODY.style.setProperty('--BUTTON_OPACITY_DISABLE', '1');
-  BODY.style.setProperty('--BUTTON_EVENT_DISABLE', 'auto');
+export function buttonSwitch(switchPar: 'active' | 'disable') {
+  switch (switchPar) {
+    case ('disable'):
+      BODY.style.setProperty('--BUTTON_OPACITY_DISABLE', '.5');
+      BODY.style.setProperty('--BUTTON_EVENT_DISABLE', 'none');
+      break;
+    case ('active'):
+      BODY.style.setProperty('--BUTTON_OPACITY_DISABLE', '1');
+      BODY.style.setProperty('--BUTTON_EVENT_DISABLE', 'auto');
+      break;
+    default:
+      break;
+  }
 }
 
 export async function deleteCarGW(id: number) {
-  await workCar(String(id), 'DELETE');
+  await workCar(id, 'DELETE');
   const actualWinners = await getAllWinners();
-  if (actualWinners.includes(id)) await workWinner(String(id), 'DELETE');
+  if (actualWinners.includes(id)) await workWinner(id, 'DELETE');
   store.dispatch({
     type: ACTIONS.update,
     isCheck: true,

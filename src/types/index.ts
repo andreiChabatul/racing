@@ -64,7 +64,7 @@ export interface IRaceMode {
   pushCar(car: IControlCar): void,
   startRace(): void,
   resetRace(): void,
-  renderWin(id: string, car: driveObj): void
+  renderWin(winner: IResponceDriveCar): void
 }
 
 export interface driveObj {
@@ -75,7 +75,6 @@ export interface driveObj {
 }
 
 export interface IResponceDriveCar {
-  status: number,
   id: number,
   time: number,
 }
@@ -95,7 +94,7 @@ export interface IControlCar {
   driveCarStart(): Promise<IResponceDriveCar>,
   offButtonStopGarage(): void,
   onButtonStopGarage(): void,
-  setRaceMode(value: boolean): Promise<void>,
+  setRaceMode(value: boolean): void,
 }
 
 export interface IState {

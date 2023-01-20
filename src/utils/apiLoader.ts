@@ -27,7 +27,7 @@ export async function updateCar(id: number, option: IUpdateCar) {
   });
 }
 
-export async function workCar(id: string, method: string): Promise<ICarResponse> {
+export async function workCar(id: number, method: string): Promise<ICarResponse> {
   return (
     await fetch(`${GARAGE_BASE}/${id}`, {
       method,
@@ -79,7 +79,7 @@ export async function getWinners(
   };
 }
 
-export async function getWinner(id: string): Promise<ICarWin> {
+export async function getWinner(id: number): Promise<ICarWin> {
   return (
     await fetch(`${WINNER_BASE}/${id}`, {
       method: 'GET',
@@ -97,7 +97,7 @@ export async function createWinner(option: ICarWin) {
   });
 }
 
-export async function workWinner(id: string, method: string): Promise<ICarWin> {
+export async function workWinner(id: number, method: string): Promise<ICarWin> {
   return (
     await fetch(`${WINNER_BASE}/${id}`, {
       method,
