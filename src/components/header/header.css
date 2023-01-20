@@ -2,6 +2,7 @@
   background-image: url(../../assets/img/strGarage.png);
   height: 50px;
   display: flex;
+  flex-wrap: wrap;
   width: 97vw;
   align-items: center;
   justify-content: space-between;
@@ -48,11 +49,20 @@
   color: var(--COLOR_FONT_BROWM);
 }
 
-.header-wraper__buttons{
+.header-wraper__buttons {
   display: flex;
   gap: 15px;
 }
 
 .header-button_control_active {
   background: var(--BUTTON_ACTIVE);
+}
+
+@media (max-width: 700px) {
+  .header-wraper {
+    height: 110px;
+    justify-content: center;
+    gap: 10px;
+    flex-direction: column-reverse;
+  }
 }
