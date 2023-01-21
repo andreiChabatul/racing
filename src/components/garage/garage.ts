@@ -31,7 +31,7 @@ export default class Garage {
 
   async update() {
     const actualState = store.getState();
-    if (actualState.IsCheckAmount) {
+    if (actualState.IsCheckUpdate) {
       const response = await getCars(actualState.garagePage, MAX_LIMIT_GARAGE);
       let amount = '1';
       if (response.amount) amount = response.amount;

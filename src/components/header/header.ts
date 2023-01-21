@@ -13,7 +13,7 @@ export default class Header {
 
   constructor() {
     this.buttonGarage = CreateElement.createDivElement('header-button_control');
-    this.buttonWinner = CreateElement.createDivElement('header-button_control button-state');
+    this.buttonWinner = CreateElement.createDivElement('header-button_control');
   }
 
   render(): HTMLDivElement {

@@ -71,11 +71,15 @@ export default class ControlCar implements IControlCar {
     controlCar.append(this.startCar, this.resetCar);
     this.headlight = this.containerCar.childNodes[0].childNodes[1] as HTMLDivElement;
     this.startCar.addEventListener('click', () => this.startEngineCar());
-    this.resetCar.addEventListener('click', async () => this.resetCarInit());
+    this.resetCar.addEventListener('click', () => {
+      this.resetCarInit();
+      this.offButtonStopGarage();
+    });
     return controlCar;
   }
 
   async startEngineCar(): Promise<boolean> {
+    this.driveObj.distanceHtml = this.trackAnimation.offsetWidth - this.containerCar.offsetWidth;
     raceMode.setAmountCar();
     buttonSwitch('disable');
     this.onButtonStopGarage();
@@ -83,7 +87,6 @@ export default class ControlCar implements IControlCar {
     const { velocity, distance } = await startEngine(this.id);
     this.driveObj.distance = distance;
     this.driveObj.time = Math.round(distance / velocity);
-    this.driveObj.distanceHtml = this.trackAnimation.offsetWidth - this.containerCar.offsetWidth;
     this.containerCar.style.opacity = '1';
     this.headlight.style.opacity = '1';
     if (this.race) this.driveCarStart();
@@ -95,7 +98,7 @@ export default class ControlCar implements IControlCar {
     this.animationCar();
     this.status = (await driveCar(this.id)).status;
     raceMode.checkAmountCar();
-    this.stopEngineCar();
+    if (this.IsFinish) this.stopEngineCar();
     return new Promise((resolve) => {
       if (this.status === 200) {
         resolve({
@@ -106,7 +109,7 @@ export default class ControlCar implements IControlCar {
     });
   }
 
-  animationCar() {
+  async animationCar() {
     const { distanceHtml, time, distance } = this.driveObj;
     const car = this.containerCar;
     const rootAnimation = this.root;
@@ -135,16 +138,14 @@ export default class ControlCar implements IControlCar {
   async resetCarInit(): Promise<boolean> {
     this.IsFinish = false;
     await this.stopEngineCar();
-    this.engineImg.classList.remove('engine-broken_active');
     this.containerCar.style.transform = 'translateX(0px)';
-    if (this.race) this.startCar.classList.remove('control-button_disable');
-    this.offButtonStopGarage();
     return true;
   }
 
   offButtonStopGarage(): void {
-    this.resetCar.classList.add('control-button_disable');
     this.engineImg.classList.remove('engine-broken_active');
+    this.startCar.classList.remove('control-button_disable');
+    this.resetCar.classList.add('control-button_disable');
   }
 
   onButtonStopGarage(): void {
@@ -154,7 +155,7 @@ export default class ControlCar implements IControlCar {
   }
 
   setRaceMode(value: boolean): void {
-    this.startCar.classList.remove('control-button_disable');
+    this.offButtonStopGarage();
     this.race = value;
   }
 }

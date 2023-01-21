@@ -11,28 +11,32 @@ export default class InitPage {
 
   winnersPage: HTMLDivElement;
 
+  mainPage: HTMLDivElement;
+
   constructor() {
     this.garagePage = new Garage().render();
     this.winnersPage = new Winner().render();
+    this.mainPage = CreateElement.createDivElement('main-page');
   }
 
   render() {
     store.subscribe(() => this.update());
     const headerPage = new Header().render();
     const footerPage = new Footer().render();
-    const mainPage = CreateElement.createDivElement('main-page');
-    mainPage.append(this.garagePage, this.winnersPage);
-    BODY?.append(headerPage, mainPage, footerPage);
+    BODY?.append(headerPage, this.mainPage, footerPage);
+  }
+
+  clear() {
+    this.mainPage.innerHTML = '';
   }
 
   update() {
     const actualState = store.getState();
-    this.winnersPage.style.display = 'none';
-    this.garagePage.style.display = 'none';
+    this.clear();
     if (actualState.display === 'winner') {
-      (this.winnersPage.style.display = 'block');
+      this.mainPage.append(this.winnersPage);
     } else {
-      (this.garagePage.style.display = 'flex');
+      this.mainPage.append(this.garagePage);
     }
   }
 }

@@ -46,15 +46,17 @@ export default class Winner {
     if (actualState.orderWinners === 'DESC') { textSpan = '↓'; } else { textSpan = '↑'; }
     this.arrayButtonWin.textContent = textSpan;
     this.arrayButtonTime.textContent = textSpan;
-    const winners = (await getWinners(
-      actualState.winnersPage,
-      MAX_LIMIT_WINNERS,
-      actualState.sortWinners,
-      actualState.orderWinners,
-    )).items;
-    this.clear();
-    for (let i = 0; i < winners.length; i += 1) {
-      this.winnerList.append(new DescriptionWin(winners[i], i + 1).render());
+    if (actualState.IsCheckUpdate) {
+      const winners = (await getWinners(
+        actualState.winnersPage,
+        MAX_LIMIT_WINNERS,
+        actualState.sortWinners,
+        actualState.orderWinners,
+      )).items;
+      this.clear();
+      for (let i = 0; i < winners.length; i += 1) {
+        this.winnerList.append(new DescriptionWin(winners[i], i + 1).render());
+      }
     }
   }
 

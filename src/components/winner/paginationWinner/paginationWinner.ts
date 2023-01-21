@@ -33,12 +33,14 @@ export default class PaginationWinner {
 
   async update() {
     const actualState = store.getState();
-    const amountWinner = (await getWinners(1, 1, '', '')).count;
-    const maxPage = Math.ceil(Number(amountWinner) / MAX_LIMIT_WINNERS);
-    this.nextPage.classList.remove('button_disable');
-    this.prevPage.classList.remove('button_disable');
-    if (actualState.winnersPage === 1) this.prevPage.classList.add('button_disable');
-    if (actualState.winnersPage === maxPage || maxPage === 0) this.nextPage.classList.add('button_disable');
-    this.amountPage.textContent = `${actualState.winnersPage}/${maxPage}`;
+    if (actualState.IsCheckUpdate) {
+      const amountWinner = (await getWinners(1, 1, '', '')).count;
+      const maxPage = Math.ceil(Number(amountWinner) / MAX_LIMIT_WINNERS);
+      this.nextPage.classList.remove('button_disable');
+      this.prevPage.classList.remove('button_disable');
+      if (actualState.winnersPage === 1) this.prevPage.classList.add('button_disable');
+      if (actualState.winnersPage === maxPage || maxPage === 0) this.nextPage.classList.add('button_disable');
+      this.amountPage.textContent = `${actualState.winnersPage}/${maxPage}`;
+    }
   }
 }

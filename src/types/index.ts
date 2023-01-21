@@ -108,7 +108,7 @@ export interface IState {
   garagePage: number,
   amountCar: number,
   winnersPage: number,
-  IsCheckAmount: boolean,
+  IsCheckUpdate: boolean,
   sortWinners: 'wins' | 'time',
   orderWinners: 'ASC' | 'DESC',
 }

@@ -34,11 +34,12 @@ class RaceMode implements IRaceMode {
     this.winContainer = CreateElement.createDivElement('win-container');
     this.controlRace = CreateElement.createDivElement('control-race-container');
     this.startButton = CreateElement.createButtonElement('button-header button-header_start button-state', 'RACE');
-    this.resetButton = CreateElement.createButtonElement('button-header button-header_reset button-state', 'RES');
+    this.resetButton = CreateElement.createButtonElement('button-header button-header_reset', 'RES');
   }
 
   render(): HTMLDivElement {
     this.controlRace.append(this.startButton, this.resetButton, this.winContainer);
+    this.resetButton.classList.add('control-button_disable');
     this.startButton.addEventListener('click', () => this.startRace());
     this.resetButton.addEventListener('click', () => this.resetRace());
     this.winContainer.addEventListener('click', () => {
@@ -68,7 +69,7 @@ class RaceMode implements IRaceMode {
       startEngineCar.push(car.startEngineCar());
     });
     await Promise.all(startEngineCar);
-    this.resetButton.classList.add('button-state_active');
+    this.resetButton.classList.remove('control-button_disable');
     this.carControl.forEach((car) => {
       driveCarArr.push(car.driveCarStart());
     });
@@ -80,7 +81,7 @@ class RaceMode implements IRaceMode {
     const stopRace: Promise<boolean>[] = [];
     this.IsRace = false;
     this.winContainer.classList.remove('win-container_active');
-    this.resetButton.classList.remove('button-state_active');
+    this.resetButton.classList.add('control-button_disable');
     this.carControl.forEach((car) => {
       stopRace.push(car.resetCarInit());
     });
@@ -94,9 +95,11 @@ class RaceMode implements IRaceMode {
   checkAmountCar() {
     this.amountCar -= 1;
     if (this.amountCar === 0) {
-      this.carControl.forEach((car) => {
-        car.setRaceMode(true);
-      });
+      if (!this.IsRace) {
+        this.carControl.forEach((car) => {
+          car.setRaceMode(true);
+        });
+      }
       buttonSwitch('active');
     }
   }
